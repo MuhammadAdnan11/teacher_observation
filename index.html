@@ -1,89 +1,196 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Teacher Observation Form</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f6f9;
-      margin: 0;
-      padding: 20px;
-    }
-    .container {
-      max-width: 950px;
-      margin: auto;
-      background: white;
-      padding: 25px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    h2, h3 {
-      text-align: center;
-    }
-    .details input, .details textarea {
-      margin: 5px;
-      padding: 8px;
-      width: calc(50% - 12px);
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
-    table th, table td {
-      border: 1px solid #ccc;
-      padding: 10px;
-      text-align: left;
-    }
-    table th {
-      background-color: #f0f0f0;
-    }
-    .rating-group input {
-      margin-right: 5px;
-    }
-    textarea {
-      width: 100%;
-      margin-top: 15px;
-      padding: 10px;
-      min-height: 80px;
-      resize: vertical;
-    }
-    button {
-      margin-top: 20px;
-      padding: 12px 20px;
-      font-size: 16px;
-      background-color: #1976d2;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    .final-section {
-      margin-top: 20px;
-    }
-    .total-score {
-      margin-top: 20px;
-      font-weight: bold;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+  }
+
+  h2, h3 {
+    text-align: center;
+    color: #333;
+    margin-top: 10px;
+  }
+
+  .container {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 20px 30px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+  }
+
+  input[type="text"],
+  input[type="date"],
+  input[type="time"],
+  select,
+  textarea {
+    padding: 10px 12px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    transition: border-color 0.3s;
+    width: 100%;
+  }
+
+  input:focus,
+  select:focus,
+  textarea:focus {
+    border-color: #1976d2;
+    outline: none;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    margin-top: 10px;
+  }
+
+  th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    vertical-align: top;
+    text-align: left;
+  }
+
+  th {
+    background-color: #1976d2;
+    color: white;
+  }
+
+  td input[type="radio"] {
+    margin-right: 4px;
+    margin-left: 4px;
+  }
+
+  .final-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .final-section label {
+    font-weight: 500;
+  }
+
+  textarea {
+    height: 80px;
+    resize: vertical;
+  }
+
+  .btn-group {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+  }
+
+  button {
+    padding: 10px 20px;
+    background-color: #1976d2;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s;
+  }
+
+  button:hover {
+    background-color: #125aa3;
+  }
+
+  .total-score {
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+    background: #e3f2fd;
+    padding: 10px;
+    border-radius: 6px;
+    color: #1976d2;
+  }
+
+  nav a:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 600px) {
     .btn-group {
-      display: flex;
-      gap: 10px;
+      flex-direction: column;
     }
-  </style>
+
+    nav {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    nav a {
+      margin-bottom: 8px;
+    }
+  }
+</style>
+
+
 </head>
 <body>
+
+  <!-- Navbar -->
+  <nav style="background-color: #1976d2; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <img src="logo.jpg" alt="GIMS Logo" style="height: 50px;">
+      <span style="color: white; font-size: 20px; font-weight: bold;">GIMS Peshawar</span>
+    </div>
+    <div>
+      <a href="#" style="color: white; margin-right: 20px; text-decoration: none;">Home</a>
+      <a href="#" style="color: white; text-decoration: none;">Records</a>
+    </div>
+  </nav>
+
   <div class="container" id="formContainer">
     <h2>Ghazzali Institute of Medical Sciences Peshawar</h2>
     <h3>Teacher Demonstration Evaluation Form</h3>
 
     <form id="evaluationForm">
       <div class="details">
-        <input type="text" id="name" placeholder="Demonstrator Name" required>
-        <input type="text" id="qualification" placeholder="Qualification">
-        <input type="text" id="topic" placeholder="Topic of Demo">
+        <!-- New Fields -->
+        <select id="categorySelect" required>
+          <option value="">Select Category</option>
+          <option value="diploma">Diploma Teacher</option>
+          <option value="nursing">Nursing Teacher</option>
+        </select>
+        <select id="teacherSelect" required>
+          <option value="">Select Teacher</option>
+        </select>
+        <input type="text" id="name" placeholder="Teacher Name" readonly>
+        <input type="text" id="teacherID" placeholder="Teacher ID" readonly>
+
+        <!-- Old Fields -->
+        <input type="text" id="topic" placeholder="Topic of Demo" required>
         <input type="text" id="length" placeholder="Length of Demo">
         <input type="text" id="conducted" placeholder="Conducted by">
         <input type="date" id="date">
@@ -121,7 +228,41 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script>
-    const criteria = [
+    const teachers = {
+      diploma: [
+        { id: "D001", name: "Mr. Aslam" },
+        { id: "D002", name: "Ms. Fatima" }
+      ],
+      nursing: [
+        { id: "N001", name: "Dr. Hina" },
+        { id: "N002", name: "Mr. Saad" }
+      ]
+    };
+
+    const categorySelect = document.getElementById('categorySelect');
+    const teacherSelect = document.getElementById('teacherSelect');
+    const nameInput = document.getElementById('name');
+    const idInput = document.getElementById('teacherID');
+
+    categorySelect.addEventListener('change', function () {
+      teacherSelect.innerHTML = '<option value="">Select Teacher</option>';
+      const selected = teachers[this.value] || [];
+      selected.forEach(teacher => {
+        const option = document.createElement('option');
+        option.value = teacher.id;
+        option.textContent = teacher.name;
+        option.dataset.name = teacher.name;
+        teacherSelect.appendChild(option);
+      });
+    });
+
+    teacherSelect.addEventListener('change', function () {
+      const selectedOption = this.options[this.selectedIndex];
+      nameInput.value = selectedOption.dataset.name || '';
+      idInput.value = this.value || '';
+    });
+
+    const criteria = [ /* your existing 24 criteria here */ 
       "Introduction (given of both self and topic)",
       "Dress, neatness and appearance",
       "Writing on the board. Fingers/diagram/visual aids",
@@ -181,8 +322,7 @@
     });
 
     function calculateScore() {
-      let total = 0;
-      let count = 0;
+      let total = 0, count = 0;
       criteria.forEach((_, index) => {
         const selected = document.querySelector(`input[name='rating-${index}']:checked`);
         if (selected) {
@@ -198,10 +338,8 @@
       e.preventDefault();
       const formData = new FormData(e.target);
       const entries = {};
-      formData.forEach((value, key) => {
-        entries[key] = value;
-      });
-      localStorage.setItem('teacherObservation', JSON.stringify(entries));
+      formData.forEach((value, key) => entries[key] = value);
+      localStorage.setItem('teacherObservation-' + entries.teacherID, JSON.stringify(entries));
       alert('Form saved to localStorage!');
     });
 
@@ -214,5 +352,7 @@
       html2pdf().from(element).save("Teacher-Evaluation.pdf");
     }
   </script>
+
+
 </body>
 </html>
