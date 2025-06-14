@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #e3f2fd, #ffffff);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .login-container {
+    background-color: #ffffff;
+    padding: 40px 30px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+  }
+
+  .login-logo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+    border: 3px solid #1976d2;
+  }
+
+  h2 {
+    margin-bottom: 25px;
+    color: #1976d2;
+  }
+
+  input[type="text"],
+  input[type="password"] {
+    width: 100%;
+    padding: 12px 14px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: border-color 0.3s;
+  }
+
+  input:focus {
+    border-color: #1976d2;
+    outline: none;
+  }
+
+  button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 20px;
+    background-color: #1976d2;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s;
+  }
+
+  button:hover {
+    background-color: #125aa3;
+  }
+
+  .error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+  }
+</style>
+
+</head>
+<body>
+    <!-- login.html -->
+<!-- <form id="loginForm">
+  <input type="text" id="username" required>
+  <input type="password" id="password" required>
+  <button type="submit">Login</button>
+</form> -->
+
+<div class="login-container">
+  <img src="logo.jpg" alt="Logo" class="login-logo">
+  <h2>Admin Login</h2>
+
+  <!-- Your existing login form structure with IDs preserved -->
+  <form id="loginForm" onsubmit="return login()">
+    <input type="text" id="username" placeholder="Username" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <button type="submit">Login</button>
+    <div class="error-message" id="errorMsg"></div>
+  </form>
+</div>
+
+
+
+
+
+<!-- <script>
+  const adminUsers = [
+    { username: "supervisor", password: "admin123" },
+    { username: "admin2", password: "admin456" }
+  ];
+
+  document.getElementById("loginForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const u = document.getElementById("username").value;
+    const p = document.getElementById("password").value;
+    const valid = adminUsers.find(user => user.username === u && user.password === p);
+    if (valid) {
+      localStorage.setItem("loggedInAdmin", u);
+      window.location.href = "index.html"; // redirect to main page
+    } else {
+      alert("Invalid credentials");
+    }
+  });
+</script> -->
+
+
+<script>
+  function login() {
+    const user = document.getElementById("username").value.trim();
+    const pass = document.getElementById("password").value.trim();
+    const errorMsg = document.getElementById("errorMsg");
+
+    // Simulate user-role checking
+    if (user === "supervisor" && pass === "admin123") {
+      localStorage.setItem("loggedInAdmin", user);
+      localStorage.setItem("adminRole", "supervisor");
+      window.location.href = "index.html";
+      return false;
+    } else if (user === "admin1" && pass === "admin123") {
+      localStorage.setItem("loggedInAdmin", user);
+      localStorage.setItem("adminRole", "created");
+      window.location.href = "index.html";
+      return false;
+    }
+
+    errorMsg.textContent = "Invalid username or password.";
+    return false;
+  }
+</script>
+
+
+
+</body>
+</html>

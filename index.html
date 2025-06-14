@@ -280,6 +280,13 @@ nav a:hover {
   }
 </style>
 
+<script>
+  if (!localStorage.getItem("loggedInAdmin")) {
+    window.location.href = "login.html"; // redirect if not logged in
+  }
+</script>
+
+
 </head>
 <body>
 
@@ -293,7 +300,7 @@ nav a:hover {
     </div>
   </nav> -->
 
-  <nav style="background-color: #1976d2; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between;">
+  <!-- <nav style="background-color: #1976d2; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between;">
     <div style="display: flex; align-items: center; gap: 10px;">
       <img src="logo.jpg" alt="GIMS Logo" style="height: 50px;">
       <span style="color: white; font-size: 20px; font-weight: bold;">GIMS Peshawar</span>
@@ -302,7 +309,22 @@ nav a:hover {
       <a href="index.html" style="color: white; margin-right: 20px; text-decoration: none;">Home</a>
       <a href="records.html" style="color: white; text-decoration: none;">Records</a>
     </div>
-  </nav>
+  </nav> -->
+
+
+  <nav style="background-color: #1976d2; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between;">
+  <div style="display: flex; align-items: center; gap: 10px;">
+    <img src="logo.jpg" alt="GIMS Logo" style="height: 50px; border-radius: 50%;">
+    <span style="color: white; font-size: 20px; font-weight: bold;">GIMS Peshawar</span>
+  </div>
+  <div id="navbar-links" style="display: flex; align-items: center; gap: 20px;">
+    <a href="index.html" style="color: white; text-decoration: none;">Home</a>
+    <a href="records.html" style="color: white; text-decoration: none;">Records</a>
+    <!-- Admin link will be added dynamically for supervisor -->
+    <button onclick="logout()" style="background: #ffffff; color: #1976d2; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: 500;">Logout</button>
+  </div>
+</nav>
+
 
   <div class="container" id="formContainer">
     <h2>Ghazzali Institute of Medical Sciences Peshawar</h2>
@@ -503,6 +525,26 @@ nav a:hover {
       const element = document.getElementById('formContainer');
       html2pdf().from(element).save("Teacher-Evaluation.pdf");
     }
+
+  // Show "Admin" link only for supervisor
+  document.addEventListener("DOMContentLoaded", function () {
+    const role = localStorage.getItem("adminRole");
+    const navbar = document.getElementById("navbar-links");
+    
+    if (role === "supervisor") {
+      const adminLink = document.createElement("a");
+      adminLink.href = "admin.html";
+      adminLink.textContent = "Admin";
+      navbar.appendChild(adminLink);
+    }
+  });
+
+    function logout() {
+    localStorage.removeItem("loggedInAdmin");
+    localStorage.removeItem("adminRole");
+    window.location.href = "login.html";
+  }
+
   </script>
 </body>
 </html>

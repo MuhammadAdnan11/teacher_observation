@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Teacher Evaluation Records</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
+  if (!localStorage.getItem("loggedInAdmin")) {
+    window.location.href = "login.html"; // redirect if not logged in
+  }
+</script>
+
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
