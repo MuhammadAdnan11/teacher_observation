@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Teacher Evaluation Records</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f4f6f9;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav {
+      background-color: #1976d2;
+      color: white;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    nav img {
+      height: 50px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: 500;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 30px auto;
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    select {
+      padding: 10px;
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-top: 20px;
+      font-size: 16px;
+    }
+
+    canvas {
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <img src="logo.jpg" alt="GIMS Logo">
+    <div>
+      <a href="index.html">Home</a>
+      <a href="records.html">Records</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h2>Teacher Performance Report</h2>
+    <select id="teacherSelect">
+      <option value="">-- Select a Teacher --</option>
+    </select>
+
+    <canvas id="teacherChart" width="400" height="200"></canvas>
+  </div>
+
+  <script>
+    // Load teacher data from localStorage (assumes array of evaluations)
+    const storedData = JSON.parse(localStorage.getItem("teacherEvaluations")) || [];
+
+    const teacherSelect = document.getElementById('teacherSelect');
+    const ctx = document.getElementById('teacherChart').getContext('2d');
+    let chartInstance;
+
+    // Get unique teacher list
+    const teacherMap = {};
+    storedData.forEach(entry => {
+      if (entry.teacherID && !teacherMap[entry.teacherID]) {
+        teacherMap[entry.teacherID] = entry.name;
+      }
+    });
+
+    // Populate dropdown
+    Object.entries(teacherMap).forEach(([id, name]) => {
+      const option = document.createElement('option');
+      option.value = id;
+      option.textContent = `${name} (${id})`;
+      teacherSelect.appendChild(option);
+    });
+
+    teacherSelect.addEventListener('change', () => {
+      const selectedID = teacherSelect.value;
+      if (!selectedID) return;
+
+      const teacherRecords = storedData
+        .filter(entry => entry.teacherID === selectedID)
+        .sort((a, b) => new Date(a.date) - new Date(b.date)); // Sort by date
+
+      const labels = teacherRecords.map(entry => entry.date || "Unknown Date");
+      const scores = teacherRecords.map(entry => parseFloat(entry.average) || 0);
+
+      // If chart already exists, destroy it before creating new
+      if (chartInstance) chartInstance.destroy();
+
+      chartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Average Score per Session',
+            data: scores,
+            borderColor: '#1976d2',
+            backgroundColor: 'rgba(25, 118, 210, 0.1)',
+            fill: true,
+            tension: 0.3,
+            pointRadius: 5
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              display: true
+            },
+            title: {
+              display: false
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 5
+            }
+          }
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

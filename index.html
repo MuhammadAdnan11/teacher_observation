@@ -1,9 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Teacher Observation Form</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <!-- <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f6f9;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav {
+      background-color: #1976d2;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+    }
+
+    nav img {
+      height: 50px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: 500;
+    }
+
+    .container {
+      max-width: 950px;
+      margin: 30px auto;
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h2, h3 {
+      text-align: center;
+    }
+
+    .details input, .details select, .details textarea {
+      margin: 5px;
+      padding: 8px;
+      width: calc(50% - 12px);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    table th, table td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+    }
+
+    table th {
+      background-color: #f0f0f0;
+    }
+
+    .rating-group input {
+      margin-right: 5px;
+    }
+
+    textarea {
+      width: 100%;
+      margin-top: 15px;
+      padding: 10px;
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 20px;
+      font-size: 16px;
+      background-color: #1976d2;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .final-section {
+      margin-top: 20px;
+    }
+
+    .total-score {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+  </style> -->
 
 <style>
   * {
@@ -135,16 +237,39 @@
     color: #1976d2;
   }
 
-  nav a:hover {
+nav a:hover {
     text-decoration: underline;
   }
+
+  /* nav a:hover {
+    text-decoration: underline;
+  } */
+/* 
+    nav {
+      background-color: #1976d2;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+    } */
+
+    /* nav img {
+      height: 50px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: 500;
+    } */
 
   @media (max-width: 600px) {
     .btn-group {
       flex-direction: column;
     }
-
-    nav {
+   nav {
       flex-direction: column;
       align-items: flex-start;
     }
@@ -155,19 +280,27 @@
   }
 </style>
 
-
 </head>
 <body>
 
-  <!-- Navbar -->
+  <!-- <nav>
+    <div></div>
+    <img src="logo.jpg" alt="GIMS Logo">
+    <span style="color: white; font-size: 20px; font-weight: bold;">GIMS Peshawar</span>
+    <div>
+      <a href="index.html">Home</a>
+      <a href="records.html">Records</a>
+    </div>
+  </nav> -->
+
   <nav style="background-color: #1976d2; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between;">
     <div style="display: flex; align-items: center; gap: 10px;">
       <img src="logo.jpg" alt="GIMS Logo" style="height: 50px;">
       <span style="color: white; font-size: 20px; font-weight: bold;">GIMS Peshawar</span>
     </div>
     <div>
-      <a href="#" style="color: white; margin-right: 20px; text-decoration: none;">Home</a>
-      <a href="#" style="color: white; text-decoration: none;">Records</a>
+      <a href="index.html" style="color: white; margin-right: 20px; text-decoration: none;">Home</a>
+      <a href="records.html" style="color: white; text-decoration: none;">Records</a>
     </div>
   </nav>
 
@@ -177,20 +310,20 @@
 
     <form id="evaluationForm">
       <div class="details">
-        <!-- New Fields -->
-        <select id="categorySelect" required>
-          <option value="">Select Category</option>
-          <option value="diploma">Diploma Teacher</option>
-          <option value="nursing">Nursing Teacher</option>
+        <select id="teacherType" required>
+          <option value="">Select Teacher Type</option>
+          <option value="Diploma">Diploma Teacher</option>
+          <option value="Nursing">Nursing Teacher</option>
         </select>
-        <select id="teacherSelect" required>
+
+        <select id="teacherList" required>
           <option value="">Select Teacher</option>
         </select>
-        <input type="text" id="name" placeholder="Teacher Name" readonly>
-        <input type="text" id="teacherID" placeholder="Teacher ID" readonly>
 
-        <!-- Old Fields -->
-        <input type="text" id="topic" placeholder="Topic of Demo" required>
+        <input type="text" id="name" placeholder="Teacher Name" disabled>
+        <input type="text" id="teacherID" placeholder="Teacher ID" disabled>
+
+        <input type="text" id="topic" placeholder="Topic of Demo">
         <input type="text" id="length" placeholder="Length of Demo">
         <input type="text" id="conducted" placeholder="Conducted by">
         <input type="date" id="date">
@@ -228,41 +361,7 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script>
-    const teachers = {
-      diploma: [
-        { id: "D001", name: "Mr. Aslam" },
-        { id: "D002", name: "Ms. Fatima" }
-      ],
-      nursing: [
-        { id: "N001", name: "Dr. Hina" },
-        { id: "N002", name: "Mr. Saad" }
-      ]
-    };
-
-    const categorySelect = document.getElementById('categorySelect');
-    const teacherSelect = document.getElementById('teacherSelect');
-    const nameInput = document.getElementById('name');
-    const idInput = document.getElementById('teacherID');
-
-    categorySelect.addEventListener('change', function () {
-      teacherSelect.innerHTML = '<option value="">Select Teacher</option>';
-      const selected = teachers[this.value] || [];
-      selected.forEach(teacher => {
-        const option = document.createElement('option');
-        option.value = teacher.id;
-        option.textContent = teacher.name;
-        option.dataset.name = teacher.name;
-        teacherSelect.appendChild(option);
-      });
-    });
-
-    teacherSelect.addEventListener('change', function () {
-      const selectedOption = this.options[this.selectedIndex];
-      nameInput.value = selectedOption.dataset.name || '';
-      idInput.value = this.value || '';
-    });
-
-    const criteria = [ /* your existing 24 criteria here */ 
+    const criteria = [
       "Introduction (given of both self and topic)",
       "Dress, neatness and appearance",
       "Writing on the board. Fingers/diagram/visual aids",
@@ -322,7 +421,8 @@
     });
 
     function calculateScore() {
-      let total = 0, count = 0;
+      let total = 0;
+      let count = 0;
       criteria.forEach((_, index) => {
         const selected = document.querySelector(`input[name='rating-${index}']:checked`);
         if (selected) {
@@ -334,13 +434,65 @@
       document.getElementById('totalScore').textContent = `Total Score: ${total} | Average: ${avg}`;
     }
 
+    // Teacher database (can later come from server or DB)
+    const teachers = {
+      Diploma: [
+        { name: "Ms. Ayesha", id: "DIP001" },
+        { name: "Mr. Bilal", id: "DIP002" }
+      ],
+      Nursing: [
+        { name: "Ms. Sana", id: "NUR001" },
+        { name: "Mr. Imran", id: "NUR002" }
+      ]
+    };
+
+    const teacherType = document.getElementById("teacherType");
+    const teacherList = document.getElementById("teacherList");
+
+    teacherType.addEventListener("change", () => {
+      const selected = teacherType.value;
+      teacherList.innerHTML = '<option value="">Select Teacher</option>';
+      if (teachers[selected]) {
+        teachers[selected].forEach(t => {
+          const option = document.createElement("option");
+          option.value = t.id;
+          option.textContent = t.name;
+          teacherList.appendChild(option);
+        });
+      }
+    });
+
+    teacherList.addEventListener("change", () => {
+      const selectedID = teacherList.value;
+      const selectedType = teacherType.value;
+      const teacher = teachers[selectedType].find(t => t.id === selectedID);
+      if (teacher) {
+        document.getElementById("name").value = teacher.name;
+        document.getElementById("teacherID").value = teacher.id;
+      }
+    });
+
     document.getElementById('evaluationForm').addEventListener('submit', function(e) {
       e.preventDefault();
+
       const formData = new FormData(e.target);
       const entries = {};
-      formData.forEach((value, key) => entries[key] = value);
-      localStorage.setItem('teacherObservation-' + entries.teacherID, JSON.stringify(entries));
-      alert('Form saved to localStorage!');
+      formData.forEach((value, key) => {
+        entries[key] = value;
+      });
+
+      // Add score details
+      entries.average = document.getElementById('totalScore').textContent.split("Average: ")[1];
+      entries.teacherID = document.getElementById("teacherID").value;
+      entries.name = document.getElementById("name").value;
+      entries.date = document.getElementById("date").value;
+
+      // Save to localStorage
+      const previous = JSON.parse(localStorage.getItem("teacherEvaluations")) || [];
+      previous.push(entries);
+      localStorage.setItem("teacherEvaluations", JSON.stringify(previous));
+
+      alert("Form saved successfully!");
     });
 
     function printForm() {
@@ -352,7 +504,5 @@
       html2pdf().from(element).save("Teacher-Evaluation.pdf");
     }
   </script>
-
-
 </body>
 </html>
