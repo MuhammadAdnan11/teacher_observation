@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teacher Observation Form</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f6f9;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 950px;
+      margin: auto;
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2, h3 {
+      text-align: center;
+    }
+    .details input, .details textarea {
+      margin: 5px;
+      padding: 8px;
+      width: calc(50% - 12px);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    table th, table td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+    }
+    table th {
+      background-color: #f0f0f0;
+    }
+    .rating-group input {
+      margin-right: 5px;
+    }
+    textarea {
+      width: 100%;
+      margin-top: 15px;
+      padding: 10px;
+      min-height: 80px;
+      resize: vertical;
+    }
+    button {
+      margin-top: 20px;
+      padding: 12px 20px;
+      font-size: 16px;
+      background-color: #1976d2;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .final-section {
+      margin-top: 20px;
+    }
+    .total-score {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+    .btn-group {
+      display: flex;
+      gap: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="formContainer">
+    <h2>Ghazzali Institute of Medical Sciences Peshawar</h2>
+    <h3>Teacher Demonstration Evaluation Form</h3>
+
+    <form id="evaluationForm">
+      <div class="details">
+        <input type="text" id="name" placeholder="Demonstrator Name" required>
+        <input type="text" id="qualification" placeholder="Qualification">
+        <input type="text" id="topic" placeholder="Topic of Demo">
+        <input type="text" id="length" placeholder="Length of Demo">
+        <input type="text" id="conducted" placeholder="Conducted by">
+        <input type="date" id="date">
+        <input type="time" id="time">
+      </div>
+
+      <p><strong>Rating Key:</strong> 1=Unsatisfactory, 2=Fair, 3=Satisfactory, 4=Very Good, 5=Excellent</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Attribute</th>
+            <th>Rating</th>
+            <th>Comments (if any)</th>
+          </tr>
+        </thead>
+        <tbody id="criteriaTable"></tbody>
+      </table>
+
+      <div class="final-section">
+        <label><input type="radio" name="recommend" value="Recommended" required> Recommended</label>
+        <label><input type="radio" name="recommend" value="Not Recommended"> Not Recommended</label>
+        <textarea id="additionalComments" placeholder="Additional Comments"></textarea>
+      </div>
+
+      <div class="total-score" id="totalScore">Total Score: 0 | Average: 0</div>
+
+      <div class="btn-group">
+        <button type="submit">Save to LocalStorage</button>
+        <button type="button" onclick="printForm()">Print</button>
+        <button type="button" onclick="downloadPDF()">Download PDF</button>
+      </div>
+    </form>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script>
+    const criteria = [
+      "Introduction (given of both self and topic)",
+      "Dress, neatness and appearance",
+      "Writing on the board. Fingers/diagram/visual aids",
+      "Usage of classroom language",
+      "Circulated during class to check all the students",
+      "Eye contact with students",
+      "Gesture and Posture",
+      "Spoke loudly and clearly",
+      "Communication (language, choice of words, grammar and fluency)",
+      "Encourage students to ask questions",
+      "Aroused students interest and encourage them for participation",
+      "Used words and expressions within the student level of understanding",
+      "Was there any element of creativity (e.g., examples)",
+      "Subject matter knowledge / command on subject / topic",
+      "Presented subject matter clearly and systematically",
+      "Aptitude ability skill and talent displayed",
+      "Methodology taught for students understanding",
+      "Answered the questions",
+      "Class control",
+      "Time management",
+      "Was organized one",
+      "Conclusion / summarization made or lecture abruptly ended",
+      "Confidence level exhibited",
+      "Showed dynamism and enthusiasm"
+    ];
+
+    const tableBody = document.getElementById('criteriaTable');
+
+    criteria.forEach((item, index) => {
+      const row = document.createElement('tr');
+      const attrCell = document.createElement('td');
+      attrCell.textContent = item;
+      row.appendChild(attrCell);
+
+      const ratingCell = document.createElement('td');
+      for (let i = 1; i <= 5; i++) {
+        const radio = document.createElement('input');
+        radio.type = 'radio';
+        radio.name = `rating-${index}`;
+        radio.value = i;
+        radio.required = true;
+        radio.onchange = calculateScore;
+        ratingCell.appendChild(radio);
+        ratingCell.append(i);
+      }
+      row.appendChild(ratingCell);
+
+      const commentCell = document.createElement('td');
+      const commentInput = document.createElement('input');
+      commentInput.type = 'text';
+      commentInput.placeholder = "Optional";
+      commentInput.style.width = "100%";
+      commentCell.appendChild(commentInput);
+      row.appendChild(commentCell);
+
+      tableBody.appendChild(row);
+    });
+
+    function calculateScore() {
+      let total = 0;
+      let count = 0;
+      criteria.forEach((_, index) => {
+        const selected = document.querySelector(`input[name='rating-${index}']:checked`);
+        if (selected) {
+          total += parseInt(selected.value);
+          count++;
+        }
+      });
+      const avg = count > 0 ? (total / count).toFixed(2) : 0;
+      document.getElementById('totalScore').textContent = `Total Score: ${total} | Average: ${avg}`;
+    }
+
+    document.getElementById('evaluationForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const entries = {};
+      formData.forEach((value, key) => {
+        entries[key] = value;
+      });
+      localStorage.setItem('teacherObservation', JSON.stringify(entries));
+      alert('Form saved to localStorage!');
+    });
+
+    function printForm() {
+      window.print();
+    }
+
+    function downloadPDF() {
+      const element = document.getElementById('formContainer');
+      html2pdf().from(element).save("Teacher-Evaluation.pdf");
+    }
+  </script>
+</body>
+</html>
