@@ -1,195 +1,235 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Panel - Teacher Observation</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f5f7fa;
-      padding: 20px;
-    }
-    .container {
-      max-width: 1100px;
-      margin: auto;
-      background: white;
-      padding: 25px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .admin-section {
-      margin-bottom: 30px;
-    }
-    input, select, button {
-      padding: 10px;
-      margin: 5px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      font-size: 14px;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
-    th, td {
-      border: 1px solid #ccc;
-      padding: 10px;
-      text-align: left;
-    }
-    th {
-      background-color: #1976d2;
-      color: white;
-    }
-    .btn {
-      background-color: #1976d2;
-      color: white;
-      cursor: pointer;
-    }
-    .btn:hover {
-      background-color: #125aa3;
-    }
-    .performance-low { background-color: #ffdddd; }
-    .performance-medium { background-color: #fff5cc; }
-    .performance-high { background-color: #ddffdd; }
-  </style>
-
-
-<script>
-  const role = localStorage.getItem("adminRole");
-  if (role !== "supervisor") {
-    alert("Access denied. Supervisors only.");
-    window.location.href = "index.html";
-  }
-</script>
-
-
-
-</head>
-<body>
-  <div class="container">
-    <h2>Admin Panel (Supervisor)</h2>
-
-    <!-- Admin Management -->
-    <div class="admin-section">
-      <h3>Create New Admin</h3>
-      <input type="text" id="newAdminEmail" placeholder="Admin Email">
-      <input type="password" id="newAdminPassword" placeholder="Password">
-      <button class="btn" onclick="createAdmin()">Create Admin</button>
-      <h3>Existing Admins</h3>
-      <ul id="adminList"></ul>
-    </div>
-
-    <!-- Search & Filter -->
-    <div class="admin-section">
-      <h3>Search Records</h3>
-      <input type="text" id="searchName" placeholder="Search by Teacher Name">
-      <input type="text" id="searchID" placeholder="Search by Teacher ID">
-      <button class="btn" onclick="filterRecords()">Search</button>
-      <button class="btn" onclick="exportToExcel()">Export as Excel</button>
-    </div>
-
-    <!-- Records Table -->
-    <div class="admin-section">
-      <h3>Teacher Evaluation Records</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Teacher ID</th>
-            <th>Teacher Name</th>
-            <th>Date</th>
-            <th>Average Score</th>
-            <th>Performance</th>
-          </tr>
-        </thead>
-        <tbody id="recordTableBody">
-          <!-- Rows will be added dynamically -->
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-  <script>
-    // Placeholder admin list logic
-    const admins = JSON.parse(localStorage.getItem('admins') || '[]');
-
-    function createAdmin() {
-      const email = document.getElementById('newAdminEmail').value;
-      const pass = document.getElementById('newAdminPassword').value;
-      if (email && pass) {
-        admins.push({ email, pass });
-        localStorage.setItem('admins', JSON.stringify(admins));
-        alert('Admin created');
-        loadAdmins();
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel - Teacher Observation</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f5f7fa;
+        padding: 20px;
       }
-    }
+      .container {
+        max-width: 1100px;
+        margin: auto;
+        background: white;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      h2 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .admin-section {
+        margin-bottom: 30px;
+      }
+      input,
+      select,
+      button {
+        padding: 10px;
+        margin: 5px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        font-size: 14px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+      th,
+      td {
+        border: 1px solid #ccc;
+        padding: 10px;
+        text-align: left;
+      }
+      th {
+        background-color: #1976d2;
+        color: white;
+      }
+      .btn {
+        background-color: #1976d2;
+        color: white;
+        cursor: pointer;
+      }
+      .btn:hover {
+        background-color: #125aa3;
+      }
+      .performance-low {
+        background-color: #ffdddd;
+      }
+      .performance-medium {
+        background-color: #fff5cc;
+      }
+      .performance-high {
+        background-color: #ddffdd;
+      }
+    </style>
 
-    function loadAdmins() {
-      const list = document.getElementById('adminList');
-      list.innerHTML = '';
-      admins.forEach((admin, index) => {
-        const li = document.createElement('li');
-        li.textContent = admin.email;
-        const removeBtn = document.createElement('button');
-        removeBtn.textContent = 'Remove';
-        removeBtn.className = 'btn';
-        removeBtn.onclick = () => {
-          admins.splice(index, 1);
-          localStorage.setItem('admins', JSON.stringify(admins));
+    <script>
+      const role = localStorage.getItem("adminRole");
+      if (role !== "supervisor") {
+        alert("Access denied. Supervisors only.");
+        window.location.href = "index.html";
+      }
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Admin Panel (Supervisor)</h2>
+
+      <!-- Admin Management -->
+      <div class="admin-section">
+        <h3>Create New Admin</h3>
+        <input type="text" id="newAdminEmail" placeholder="Admin Email" />
+        <input type="password" id="newAdminPassword" placeholder="Password" />
+        <button class="btn" onclick="createAdmin()">Create Admin</button>
+
+        <!-- Success message placeholder -->
+         <p id="adminMessage" style="color: green; font-weight: 500;"></p>
+
+        <h3>Existing Admins</h3>
+        <ul id="adminList"></ul>
+      </div>
+
+      <!-- Search & Filter -->
+      <div class="admin-section">
+        <h3>Search Records</h3>
+        <input
+          type="text"
+          id="searchName"
+          placeholder="Search by Teacher Name"
+        />
+        <input type="text" id="searchID" placeholder="Search by Teacher ID" />
+        <button class="btn" onclick="filterRecords()">Search</button>
+        <button class="btn" onclick="exportToExcel()">Export as Excel</button>
+      </div>
+
+      <!-- Records Table -->
+      <div class="admin-section">
+        <h3>Teacher Evaluation Records</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Teacher ID</th>
+              <th>Teacher Name</th>
+              <th>Date</th>
+              <th>Average Score</th>
+              <th>Performance</th>
+            </tr>
+          </thead>
+          <tbody id="recordTableBody">
+            <!-- Rows will be added dynamically -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script>
+      // Placeholder admin list logic
+      const admins = JSON.parse(localStorage.getItem("admins") || "[]");
+
+      function createAdmin() {
+        const email = document.getElementById("newAdminEmail").value;
+        const pass = document.getElementById("newAdminPassword").value;
+        const messageE1= document.getElementById("adminMessage");
+        if (email && pass) {
+          admins.push({ email, pass });
+          localStorage.setItem("admins", JSON.stringify(admins));
+          // alert("Admin created");
           loadAdmins();
-        };
-        li.appendChild(removeBtn);
-        list.appendChild(li);
-      });
-    }
 
-    loadAdmins();
+          //let's clear field after creation
+          document.getElementById('newAdminEmail').value='';
+          document.getElementById('newAdminPassword').value='';
 
-    // Example records logic (replace with real evaluation data)
-    const records = JSON.parse(localStorage.getItem('teacherRecords') || '[]');
+          //Show success message
+          messageE1.textContent='Admin created successfully!';
+          setTimeout(()=>{
+            messageE1.textContent='';
+          },3000)
+        }else{
+          messageE1.textContent='Please enter both email and password.';
+          messageE1.style.color='red';
+        }
+      }
 
-    function filterRecords() {
-      const name = document.getElementById('searchName').value.toLowerCase();
-      const id = document.getElementById('searchID').value;
-      const tbody = document.getElementById('recordTableBody');
-      tbody.innerHTML = '';
-      records.filter(r =>
-        (!name || r.name.toLowerCase().includes(name)) &&
-        (!id || r.teacherID.includes(id))
-      ).forEach(r => {
-        const row = document.createElement('tr');
-        const perfClass = r.average < 2.5 ? 'performance-low' : r.average < 4 ? 'performance-medium' : 'performance-high';
-        row.classList.add(perfClass);
-        row.innerHTML = `
+      function loadAdmins() {
+        const list = document.getElementById("adminList");
+        list.innerHTML = "";
+        admins.forEach((admin, index) => {
+          const li = document.createElement("li");
+          li.textContent = admin.email;
+          const removeBtn = document.createElement("button");
+          removeBtn.textContent = "Remove";
+          removeBtn.className = "btn";
+          removeBtn.onclick = () => {
+            admins.splice(index, 1);
+            localStorage.setItem("admins", JSON.stringify(admins));
+            loadAdmins();
+          };
+          li.appendChild(removeBtn);
+          list.appendChild(li);
+        });
+      }
+
+      loadAdmins();
+
+      // Example records logic (replace with real evaluation data)
+      const records = JSON.parse(
+        localStorage.getItem("teacherRecords") || "[]"
+      );
+
+      function filterRecords() {
+        const name = document.getElementById("searchName").value.toLowerCase();
+        const id = document.getElementById("searchID").value;
+        const tbody = document.getElementById("recordTableBody");
+        tbody.innerHTML = "";
+        records
+          .filter(
+            (r) =>
+              (!name || r.name.toLowerCase().includes(name)) &&
+              (!id || r.teacherID.includes(id))
+          )
+          .forEach((r) => {
+            const row = document.createElement("tr");
+            const perfClass =
+              r.average < 2.5
+                ? "performance-low"
+                : r.average < 4
+                ? "performance-medium"
+                : "performance-high";
+            row.classList.add(perfClass);
+            row.innerHTML = `
           <td>${r.teacherID}</td>
           <td>${r.name}</td>
           <td>${r.date}</td>
           <td>${r.average}</td>
-          <td>${perfClass.replace('performance-', '').toUpperCase()}</td>
+          <td>${perfClass.replace("performance-", "").toUpperCase()}</td>
         `;
-        tbody.appendChild(row);
-      });
-    }
+            tbody.appendChild(row);
+          });
+      }
 
-    function exportToExcel() {
-      const wb = XLSX.utils.book_new();
-      const wsData = [
-        ['Teacher ID', 'Teacher Name', 'Date', 'Average Score']
-      ];
-      records.forEach(r => {
-        wsData.push([r.teacherID, r.name, r.date, r.average]);
-      });
-      const ws = XLSX.utils.aoa_to_sheet(wsData);
-      XLSX.utils.book_append_sheet(wb, ws, 'Records');
-      XLSX.writeFile(wb, 'Teacher-Evaluation-Records.xlsx');
-    }
-  </script>
-</body>
+      function exportToExcel() {
+        const wb = XLSX.utils.book_new();
+        const wsData = [
+          ["Teacher ID", "Teacher Name", "Date", "Average Score"],
+        ];
+        records.forEach((r) => {
+          wsData.push([r.teacherID, r.name, r.date, r.average]);
+        });
+        const ws = XLSX.utils.aoa_to_sheet(wsData);
+        XLSX.utils.book_append_sheet(wb, ws, "Records");
+        XLSX.writeFile(wb, "Teacher-Evaluation-Records.xlsx");
+      }
+    </script>
+  </body>
 </html>

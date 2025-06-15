@@ -70,13 +70,27 @@
 </head>
 <body>
 
-  <nav>
+  <!-- <nav>
     <img src="logo.jpg" alt="GIMS Logo">
     <div>
       <a href="index.html">Home</a>
       <a href="records.html">Records</a>
     </div>
-  </nav>
+  </nav> -->
+
+  <nav style="background-color: #1976d2; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between;">
+  <div style="display: flex; align-items: center; gap: 10px;">
+    <img src="logo.jpg" alt="GIMS Logo" style="height: 50px; border-radius: 50%;">
+    <span style="color: white; font-size: 20px; font-weight: bold;">GIMS Peshawar</span>
+  </div>
+  <div id="navbar-links" style="display: flex; align-items: center; gap: 20px;">
+    <a href="index.html" style="color: white; text-decoration: none;">Home</a>
+    <a href="records.html" style="color: white; text-decoration: none;">Records</a>
+    <!-- Admin link will be added dynamically for supervisor -->
+    <button onclick="logout()" style="background: #ffffff; color: #1976d2; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: 500;">Logout</button>
+  </div>
+</nav>
+
 
   <div class="container">
     <h2>Teacher Performance Report</h2>
