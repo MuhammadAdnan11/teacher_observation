@@ -12,11 +12,12 @@
       body {
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         background-color: #f5f7fa;
-        padding: 20px;
+        /* padding: 20px; */
+        margin: 0;
       }
       .container {
         max-width: 1100px;
-        margin: auto;
+        margin: 30px auto;
         background: white;
         padding: 25px;
         border-radius: 10px;
@@ -70,6 +71,21 @@
       .performance-high {
         background-color: #ddffdd;
       }
+
+      #navAdmin {
+        text-decoration: none;
+        color: rgba(44, 234, 85, 0.941);
+        font-weight: 700;
+      }
+       nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 8px;
+      font-weight: 500;
+    }
+      nav a:hover {
+        text-decoration: underline;
+      }
     </style>
 
     <script>
@@ -81,6 +97,19 @@
     </script>
   </head>
   <body>
+    <nav style="background-color: #1976d2; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between;">
+  <div style="display: flex; align-items: center; gap: 10px;">
+    <img src="logo.jpg" alt="GIMS Logo" style="height: 50px; border-radius: 50%;">
+    <span style="color: white; font-size: 20px; font-weight: bold;">GIMS Peshawar</span>
+  </div>
+  <div id="navbar-links" style="display: flex; align-items: center; gap: 20px;">
+    <a href="index.html" style="color: white; text-decoration: none;">Home</a>
+    <a href="records.html" style="color: white; text-decoration: none;">Records</a>
+    <!-- Admin link will be added dynamically for supervisor -->
+    <button onclick="logout()" style="background: #ffffff; color: #1976d2; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: 500;">Logout</button>
+  </div>
+</nav>
+
     <div class="container">
       <h2>Admin Panel (Supervisor)</h2>
 
@@ -92,7 +121,7 @@
         <button class="btn" onclick="createAdmin()">Create Admin</button>
 
         <!-- Success message placeholder -->
-         <p id="adminMessage" style="color: green; font-weight: 500;"></p>
+        <p id="adminMessage" style="color: green; font-weight: 500"></p>
 
         <h3>Existing Admins</h3>
         <ul id="adminList"></ul>
@@ -139,7 +168,7 @@
       function createAdmin() {
         const email = document.getElementById("newAdminEmail").value;
         const pass = document.getElementById("newAdminPassword").value;
-        const messageE1= document.getElementById("adminMessage");
+        const messageE1 = document.getElementById("adminMessage");
         if (email && pass) {
           admins.push({ email, pass });
           localStorage.setItem("admins", JSON.stringify(admins));
@@ -147,17 +176,17 @@
           loadAdmins();
 
           //let's clear field after creation
-          document.getElementById('newAdminEmail').value='';
-          document.getElementById('newAdminPassword').value='';
+          document.getElementById("newAdminEmail").value = "";
+          document.getElementById("newAdminPassword").value = "";
 
           //Show success message
-          messageE1.textContent='Admin created successfully!';
-          setTimeout(()=>{
-            messageE1.textContent='';
-          },3000)
-        }else{
-          messageE1.textContent='Please enter both email and password.';
-          messageE1.style.color='red';
+          messageE1.textContent = "Admin created successfully!";
+          setTimeout(() => {
+            messageE1.textContent = "";
+          }, 3000);
+        } else {
+          messageE1.textContent = "Please enter both email and password.";
+          messageE1.style.color = "red";
         }
       }
 
@@ -229,6 +258,26 @@
         const ws = XLSX.utils.aoa_to_sheet(wsData);
         XLSX.utils.book_append_sheet(wb, ws, "Records");
         XLSX.writeFile(wb, "Teacher-Evaluation-Records.xlsx");
+      }
+
+      // Show "Admin" link only for supervisor
+      document.addEventListener("DOMContentLoaded", function () {
+        const role = localStorage.getItem("adminRole");
+        const navbar = document.getElementById("navbar-links");
+
+        if (role === "supervisor") {
+          const adminLink = document.createElement("a");
+          adminLink.id = "navAdmin";
+          adminLink.href = "admin.html";
+          adminLink.textContent = "Admin";
+          navbar.appendChild(adminLink);
+        }
+      });
+
+      function logout() {
+        localStorage.removeItem("loggedInAdmin");
+        localStorage.removeItem("adminRole");
+        window.location.href = "login.html";
       }
     </script>
   </body>
