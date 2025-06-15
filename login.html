@@ -133,7 +133,7 @@
 </script> -->
 
 
-<script>
+<!-- <script>
   function login() {
     const user = document.getElementById("username").value.trim();
     const pass = document.getElementById("password").value.trim();
@@ -155,8 +155,38 @@
     errorMsg.textContent = "Invalid username or password.";
     return false;
   }
-</script>
+</script> -->
 
+<script>
+  function login() {
+    const user = document.getElementById("username").value.trim();
+    const pass = document.getElementById("password").value.trim();
+    const errorMsg = document.getElementById("errorMsg");
+
+    // Supervisor login
+    if (user === "supervisor" && pass === "admin123") {
+      localStorage.setItem("loggedInAdmin", user);
+      localStorage.setItem("adminRole", "supervisor");
+      window.location.href = "index.html";
+      return false;
+    }
+
+    // Check dynamically created admins from localStorage
+    const admins = JSON.parse(localStorage.getItem("admins") || "[]");
+    const match = admins.find(admin => admin.email === user && admin.pass === pass);
+
+    if (match) {
+      localStorage.setItem("loggedInAdmin", user);
+      localStorage.setItem("adminRole", "created");
+      window.location.href = "index.html";
+      return false;
+    }
+
+    // If no match
+    errorMsg.textContent = "Invalid username or password.";
+    return false;
+  }
+</script>
 
 
 </body>
