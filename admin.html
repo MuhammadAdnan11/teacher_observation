@@ -163,6 +163,17 @@
           </tbody>
         </table>
       </div>
+   
+<!-- Criteria Management -->
+<div class="admin-section">
+  <h3>Manage Evaluation Criteria</h3>
+  <input type="text" id="newCriteria" placeholder="Enter new criterion">
+  <button class="btn" onclick="addCriterion()">Add Criterion</button>
+  <ul id="criteriaList"></ul>
+</div>
+
+
+
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
@@ -325,6 +336,64 @@ function addTeacher() {
 
 
   showTeachers();
+
+
+// Load criteria from localStorage or initialize default array
+function loadCriteria() {
+  const criteria = JSON.parse(localStorage.getItem("evaluationCriteria") || "[]");
+  const list = document.getElementById("criteriaList");
+  list.innerHTML = "";
+
+  criteria.forEach((crit, index) => {
+    const li = document.createElement("li");
+
+    const input = document.createElement("input");
+    input.type = "text";
+    input.value = crit;
+    input.style.marginRight = "10px";
+
+    const saveBtn = document.createElement("button");
+    saveBtn.textContent = "Save";
+    saveBtn.className = "btn";
+    saveBtn.onclick = () => {
+      criteria[index] = input.value.trim();
+      localStorage.setItem("evaluationCriteria", JSON.stringify(criteria));
+      loadCriteria();
+    };
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "Delete";
+    deleteBtn.className = "btn";
+    deleteBtn.style.marginLeft = "5px";
+    deleteBtn.onclick = () => {
+      criteria.splice(index, 1);
+      localStorage.setItem("evaluationCriteria", JSON.stringify(criteria));
+      loadCriteria();
+    };
+
+    li.appendChild(input);
+    li.appendChild(saveBtn);
+    li.appendChild(deleteBtn);
+
+    list.appendChild(li);
+  });
+}
+
+function addCriterion() {
+  const newCrit = document.getElementById("newCriteria").value.trim();
+  if (!newCrit) return;
+
+  const criteria = JSON.parse(localStorage.getItem("evaluationCriteria") || "[]");
+  criteria.push(newCrit);
+  localStorage.setItem("evaluationCriteria", JSON.stringify(criteria));
+  document.getElementById("newCriteria").value = "";
+  loadCriteria();
+}
+
+// Load on page load
+loadCriteria();
+
+
 
 
       function logout() {

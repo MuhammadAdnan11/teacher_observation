@@ -5,181 +5,119 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Teacher Observation Form</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-
-<style>
-  * {
-    box-sizing: border-box;
-  }
-
-  body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f9f9f9;
-    margin: 0;
-    padding: 0;
-  }
-
-  h2, h3 {
-    text-align: center;
-    color: #333;
-    margin-top: 10px;
-  }
-
-  .container {
-    max-width: 1000px;
-    margin: 30px auto;
-    padding: 20px 30px;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-  }
-
-  form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  .details {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 15px;
-  }
-
-  input[type="text"],
-  input[type="date"],
-  input[type="time"],
-  select,
-  textarea {
-    padding: 10px 12px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    transition: border-color 0.3s;
-    width: 100%;
-  }
-
-  input:focus,
-  select:focus,
-  textarea:focus {
-    border-color: #1976d2;
-    outline: none;
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: #fff;
-    margin-top: 10px;
-  }
-
-  th, td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    vertical-align: top;
-    text-align: left;
-  }
-
-  th {
-    background-color: #1976d2;
-    color: white;
-  }
-
-  td input[type="radio"] {
-    margin-right: 4px;
-    margin-left: 4px;
-  }
-
-  .final-section {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .final-section label {
-    font-weight: 500;
-  }
-
-  textarea {
-    height: 80px;
-    resize: vertical;
-  }
-
-  .btn-group {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 20px;
-  }
-
-  button {
-    padding: 10px 20px;
-    background-color: #1976d2;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: background-color 0.3s;
-  }
-
-  button:hover {
-    background-color: #125aa3;
-  }
-
-  .total-score {
-    text-align: center;
-    font-weight: bold;
-    font-size: 16px;
-    background: #e3f2fd;
-    padding: 10px;
-    border-radius: 6px;
-    color: #1976d2;
-  }
-
-
- nav a {
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+    }
+    h2, h3 { text-align: center; color: #333; margin-top: 10px; }
+    .container {
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 20px 30px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    }
+    form { display: flex; flex-direction: column; gap: 20px; }
+    .details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 15px;
+    }
+    input[type="text"], input[type="date"], input[type="time"], select, textarea {
+      padding: 10px 12px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      width: 100%;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: #1976d2;
+      outline: none;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #fff;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      vertical-align: top;
+      text-align: left;
+    }
+    th {
+      background-color: #1976d2;
+      color: white;
+    }
+    td input[type="radio"] {
+      margin-right: 4px;
+      margin-left: 4px;
+    }
+    .final-section { display: flex; flex-direction: column; gap: 10px; }
+    .final-section label { font-weight: 500; }
+    textarea { height: 80px; resize: vertical; }
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #1976d2;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background-color 0.3s;
+    }
+    button:hover { background-color: #125aa3; }
+    .total-score {
+      text-align: center;
+      font-weight: bold;
+      font-size: 16px;
+      background: #e3f2fd;
+      padding: 10px;
+      border-radius: 6px;
+      color: #1976d2;
+    }
+    nav a {
       color: white;
       text-decoration: none;
       margin-left: 8px;
       font-weight: 500;
-     
     }
-    
-
-  @media (max-width: 600px) {
-    .btn-group {
-      flex-direction: column;
+    @media (max-width: 600px) {
+      .btn-group { flex-direction: column; }
+      nav { flex-direction: column; align-items: flex-start; }
+      nav a { margin-bottom: 8px; }
     }
-   nav {
-      flex-direction: column;
-      align-items: flex-start;
+  </style>
+  <script>
+    if (!localStorage.getItem("loggedInAdmin")) {
+      window.location.href = "login.html";
     }
-
-    nav a {
-      margin-bottom: 8px;
-    }
-  }
-</style>
-
-<script>
-  if (!localStorage.getItem("loggedInAdmin")) {
-    window.location.href = "login.html"; // redirect if not logged in
-  }
-</script>
+  </script>
 </head>
 <body>
-    <nav style="background-color: #1976d2; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between;">
-  <div style="display: flex; align-items: center; gap: 10px;">
-    <img src="logo.jpg" alt="GIMS Logo" style="height: 50px; border-radius: 50%;">
-    <span style="color: white; font-size: 20px; font-weight: bold;">GIMS Peshawar</span>
-  </div>
-  <div id="navbar-links" style="display: flex; align-items: center; gap: 20px;">
-    <a href="index.html" style="color: white; text-decoration: none;">Home</a>
-    <a href="records.html" style="color: white; text-decoration: none;">Records</a>
-    <!-- Admin link will be added dynamically for supervisor -->
-    <button onclick="logout()" style="background: #ffffff; color: #1976d2; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: 500;">Logout</button>
-  </div>
-</nav>
+  <nav style="background-color: #1976d2; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <img src="logo.jpg" alt="GIMS Logo" style="height: 50px; border-radius: 50%;">
+      <span style="color: white; font-size: 20px; font-weight: bold;">GIMS Peshawar</span>
+    </div>
+    <div id="navbar-links" style="display: flex; align-items: center; gap: 20px;">
+      <a href="index.html">Home</a>
+      <a href="records.html">Records</a>
+      <button onclick="logout()" style="background: #ffffff; color: #1976d2; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: 500;">Logout</button>
+    </div>
+  </nav>
 
   <div class="container" id="formContainer">
     <h2>Ghazzali Institute of Medical Sciences Peshawar</h2>
@@ -187,15 +125,10 @@
 
     <form id="evaluationForm">
       <div class="details">
-        <!-- <label for="teacherType">Teacher Type</label> -->
-        <select id="teacherType"  required></select>
-
-        <!-- <label for="teacherList">Select Teacher</label> -->
-        <select id="teacherList"  required></select>
-
+        <select id="teacherType" required></select>
+        <select id="teacherList" required></select>
         <input type="text" id="name" placeholder="Teacher Name" disabled />
         <input type="text" id="teacherID" placeholder="Teacher ID" disabled />
-
         <input type="text" id="topic" placeholder="Topic of Demo" />
         <input type="text" id="length" placeholder="Length of Demo" />
         <input type="text" id="conducted" placeholder="Conducted by" />
@@ -234,32 +167,7 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script>
-    const criteria = [
-      "Introduction (given of both self and topic)",
-      "Dress, neatness and appearance",
-      "Writing on the board. Fingers/diagram/visual aids",
-      "Usage of classroom language",
-      "Circulated during class to check all the students",
-      "Eye contact with students",
-      "Gesture and Posture",
-      "Spoke loudly and clearly",
-      "Communication (language, choice of words, grammar and fluency)",
-      "Encourage students to ask questions",
-      "Aroused students interest and encourage them for participation",
-      "Used words and expressions within the student level of understanding",
-      "Was there any element of creativity (e.g., examples)",
-      "Subject matter knowledge / command on subject / topic",
-      "Presented subject matter clearly and systematically",
-      "Aptitude ability skill and talent displayed",
-      "Methodology taught for students understanding",
-      "Answered the questions",
-      "Class control",
-      "Time management",
-      "Was organized one",
-      "Conclusion / summarization made or lecture abruptly ended",
-      "Confidence level exhibited",
-      "Showed dynamism and enthusiasm"
-    ];
+    const criteria = JSON.parse(localStorage.getItem("evaluationCriteria") || "[]");
 
     const tableBody = document.getElementById('criteriaTable');
     criteria.forEach((item, index) => {
@@ -293,8 +201,7 @@
     });
 
     function calculateScore() {
-      let total = 0;
-      let count = 0;
+      let total = 0, count = 0;
       criteria.forEach((_, index) => {
         const selected = document.querySelector(`input[name='rating-${index}']:checked`);
         if (selected) {
@@ -306,17 +213,10 @@
       document.getElementById('totalScore').textContent = `Total Score: ${total} | Average: ${avg}`;
     }
 
-    // Load teachers from localStorage
-    let teachers = {};
-    const storedTeachers = localStorage.getItem("teachers");
-    if (storedTeachers) {
-      teachers = JSON.parse(storedTeachers);
-    }
-
+    // Load teachers
+    let teachers = JSON.parse(localStorage.getItem("teachers") || "{}");
     const teacherType = document.getElementById("teacherType");
     const teacherList = document.getElementById("teacherList");
-
-    // Populate teacher types
     teacherType.innerHTML = '<option value="">Select Teacher Type</option>';
     Object.keys(teachers).forEach(type => {
       const option = document.createElement("option");
@@ -350,22 +250,17 @@
 
     document.getElementById('evaluationForm').addEventListener('submit', function (e) {
       e.preventDefault();
-
       const formData = new FormData(e.target);
       const entries = {};
-      formData.forEach((value, key) => {
-        entries[key] = value;
-      });
-
+      formData.forEach((value, key) => entries[key] = value);
       entries.average = document.getElementById('totalScore').textContent.split("Average: ")[1];
       entries.teacherID = document.getElementById("teacherID").value;
       entries.name = document.getElementById("name").value;
       entries.date = document.getElementById("date").value;
 
-      const previous = JSON.parse(localStorage.getItem("teacherEvaluations")) || [];
+      const previous = JSON.parse(localStorage.getItem("teacherEvaluations") || "[]");
       previous.push(entries);
       localStorage.setItem("teacherEvaluations", JSON.stringify(previous));
-
       alert("Form saved successfully!");
     });
 
@@ -378,17 +273,15 @@
       html2pdf().from(element).save("Teacher-Evaluation.pdf");
     }
 
-    // Show Admin link if role is supervisor
     document.addEventListener("DOMContentLoaded", function () {
       const role = localStorage.getItem("adminRole");
       const navbar = document.getElementById("navbar-links");
       if (role === "supervisor") {
         const adminLink = document.createElement("a");
-         adminLink.id = "navAdmin";
+        adminLink.id = "navAdmin";
         adminLink.href = "admin.html";
         adminLink.textContent = "Admin";
         adminLink.style.color = "white";
-        adminLink.style.textDecoration = "none";
         navbar.appendChild(adminLink);
       }
     });
@@ -400,6 +293,4 @@
     }
   </script>
 </body>
-</html>
-
 </html>
