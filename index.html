@@ -1,18 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Teacher Observation Form</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
-    * { box-sizing: border-box; }
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f9f9f9;
-      margin: 0;
-      padding: 0;
-    }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f9f9f9; margin: 0; padding: 0; }
     h2, h3 { text-align: center; color: #333; margin-top: 10px; }
     .container {
       max-width: 1000px;
@@ -26,7 +20,8 @@
     .details {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 15px;
+      gap: 20px;
+      margin-bottom: 20px;
     }
     input[type="text"], input[type="date"], input[type="time"], select, textarea {
       padding: 10px 12px;
@@ -42,26 +37,14 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      background-color: #fff;
       margin-top: 10px;
     }
     th, td {
       border: 1px solid #ddd;
       padding: 10px;
-      vertical-align: top;
-      text-align: left;
     }
-    th {
-      background-color: #1976d2;
-      color: white;
-    }
-    td input[type="radio"] {
-      margin-right: 4px;
-      margin-left: 4px;
-    }
-    .final-section { display: flex; flex-direction: column; gap: 10px; }
-    .final-section label { font-weight: 500; }
-    textarea { height: 80px; resize: vertical; }
+    th { background-color: #1976d2; color: white; }
+    td input[type="radio"] { margin: 0 4px; }
     .btn-group {
       display: flex;
       justify-content: center;
@@ -76,7 +59,6 @@
       border-radius: 8px;
       cursor: pointer;
       font-weight: 500;
-      transition: background-color 0.3s;
     }
     button:hover { background-color: #125aa3; }
     .total-score {
@@ -87,17 +69,6 @@
       padding: 10px;
       border-radius: 6px;
       color: #1976d2;
-    }
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin-left: 8px;
-      font-weight: 500;
-    }
-    @media (max-width: 600px) {
-      .btn-group { flex-direction: column; }
-      nav { flex-direction: column; align-items: flex-start; }
-      nav a { margin-bottom: 8px; }
     }
   </style>
   <script>
@@ -125,9 +96,21 @@
 
     <form id="evaluationForm">
       <div class="details">
-        <select id="teacherType" required></select>
-        <select id="teacherList" required></select>
-        <input type="text" id="name" placeholder="Teacher Name" disabled />
+        <select id="campusDropdown" required>
+          <option value="">Select Campus</option>
+          <option>Main Campus</option>
+          <option>Phase-3 Campus</option>
+          <option>Gulabad Campus</option>
+        </select>
+        <select id="teacherTypeDropdown" required disabled>
+          <option value="">Select Teacher Type</option>
+        </select>
+        <select id="teacherDropdown" required disabled>
+          <option value="">Select Teacher</option>
+        </select>
+        <select id="subjectDropdown" required disabled>
+          <option value="">Select Subject</option>
+        </select>
         <input type="text" id="teacherID" placeholder="Teacher ID" disabled />
         <input type="text" id="topic" placeholder="Topic of Demo" />
         <input type="text" id="length" placeholder="Length of Demo" />
@@ -143,22 +126,18 @@
           <tr>
             <th>Attribute</th>
             <th>Rating</th>
-            <th>Comments (if any)</th>
+            <th>Comments</th>
           </tr>
         </thead>
         <tbody id="criteriaTable"></tbody>
       </table>
 
-      <div class="final-section">
-        <label><input type="radio" name="recommend" value="Recommended" required /> Recommended</label>
-        <label><input type="radio" name="recommend" value="Not Recommended" /> Not Recommended</label>
-        <textarea id="additionalComments" placeholder="Additional Comments"></textarea>
-      </div>
+      <textarea id="additionalComments" placeholder="Additional Comments"></textarea>
 
       <div class="total-score" id="totalScore">Total Score: 0 | Average: 0</div>
 
       <div class="btn-group">
-        <button type="submit">Save to LocalStorage</button>
+        <button type="submit">Save</button>
         <button type="button" onclick="printForm()">Print</button>
         <button type="button" onclick="downloadPDF()">Download PDF</button>
       </div>
@@ -168,129 +147,129 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script>
     const criteria = JSON.parse(localStorage.getItem("evaluationCriteria") || "[]");
+    const tableBody = document.getElementById("criteriaTable");
 
-    const tableBody = document.getElementById('criteriaTable');
     criteria.forEach((item, index) => {
-      const row = document.createElement('tr');
-      const attrCell = document.createElement('td');
-      attrCell.textContent = item;
-      row.appendChild(attrCell);
-
-      const ratingCell = document.createElement('td');
-      for (let i = 1; i <= 5; i++) {
-        const radio = document.createElement('input');
-        radio.type = 'radio';
-        radio.name = `rating-${index}`;
-        radio.value = i;
-        radio.required = true;
-        radio.onchange = calculateScore;
-        ratingCell.appendChild(radio);
-        ratingCell.append(i);
-      }
-      row.appendChild(ratingCell);
-
-      const commentCell = document.createElement('td');
-      const commentInput = document.createElement('input');
-      commentInput.type = 'text';
-      commentInput.placeholder = "Optional";
-      commentInput.style.width = "100%";
-      commentCell.appendChild(commentInput);
-      row.appendChild(commentCell);
-
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${item}</td>
+        <td>${[1,2,3,4,5].map(i => `<label><input type="radio" name="rating-${index}" value="${i}" required> ${i}</label>`).join(" ")}</td>
+        <td><input type="text" placeholder="Optional" style="width:100%"></td>`;
       tableBody.appendChild(row);
     });
 
     function calculateScore() {
       let total = 0, count = 0;
       criteria.forEach((_, index) => {
-        const selected = document.querySelector(`input[name='rating-${index}']:checked`);
-        if (selected) {
-          total += parseInt(selected.value);
+        const checked = document.querySelector(`input[name="rating-${index}"]:checked`);
+        if (checked) {
+          total += parseInt(checked.value);
           count++;
         }
       });
-      const avg = count > 0 ? (total / count).toFixed(2) : 0;
-      document.getElementById('totalScore').textContent = `Total Score: ${total} | Average: ${avg}`;
+      const avg = count ? (total / count).toFixed(2) : 0;
+      document.getElementById("totalScore").textContent = `Total Score: ${total} | Average: ${avg}`;
     }
+    document.addEventListener("change", calculateScore);
 
-    // Load teachers
-    let teachers = JSON.parse(localStorage.getItem("teachers") || "{}");
-    const teacherType = document.getElementById("teacherType");
-    const teacherList = document.getElementById("teacherList");
-    teacherType.innerHTML = '<option value="">Select Teacher Type</option>';
-    Object.keys(teachers).forEach(type => {
-      const option = document.createElement("option");
-      option.value = type;
-      option.textContent = type;
-      teacherType.appendChild(option);
-    });
+    const teachersData = JSON.parse(localStorage.getItem("teachers") || "{}");
+    const campusDropdown = document.getElementById("campusDropdown");
+    const teacherTypeDropdown = document.getElementById("teacherTypeDropdown");
+    const teacherDropdown = document.getElementById("teacherDropdown");
+    const subjectDropdown = document.getElementById("subjectDropdown");
 
-    teacherType.addEventListener("change", () => {
-      const selected = teacherType.value;
-      teacherList.innerHTML = '<option value="">Select Teacher</option>';
-      if (teachers[selected]) {
-        teachers[selected].forEach(t => {
-          const option = document.createElement("option");
-          option.value = t.id;
-          option.textContent = t.name;
-          teacherList.appendChild(option);
+    campusDropdown.addEventListener("change", function () {
+      teacherTypeDropdown.innerHTML = '<option value="">Select Teacher Type</option>';
+      teacherDropdown.innerHTML = '<option value="">Select Teacher</option>';
+      subjectDropdown.innerHTML = '<option value="">Select Subject</option>';
+      teacherTypeDropdown.disabled = teacherDropdown.disabled = subjectDropdown.disabled = true;
+
+      const campus = this.value;
+      if (campus && teachersData[campus]) {
+        Object.keys(teachersData[campus]).forEach(type => {
+          const opt = document.createElement("option");
+          opt.value = type;
+          opt.textContent = type;
+          teacherTypeDropdown.appendChild(opt);
         });
+        teacherTypeDropdown.disabled = false;
       }
     });
 
-    teacherList.addEventListener("change", () => {
-      const selectedID = teacherList.value;
-      const selectedType = teacherType.value;
-      const teacher = teachers[selectedType]?.find(t => t.id === selectedID);
+    teacherTypeDropdown.addEventListener("change", function () {
+      teacherDropdown.innerHTML = '<option value="">Select Teacher</option>';
+      subjectDropdown.innerHTML = '<option value="">Select Subject</option>';
+      teacherDropdown.disabled = subjectDropdown.disabled = true;
+
+      const campus = campusDropdown.value;
+      const type = this.value;
+      if (campus && type && teachersData[campus][type]) {
+        teachersData[campus][type].forEach(teacher => {
+          const opt = document.createElement("option");
+          opt.value = teacher.id;
+          opt.textContent = teacher.name;
+          teacherDropdown.appendChild(opt);
+        });
+        teacherDropdown.disabled = false;
+      }
+    });
+
+    teacherDropdown.addEventListener("change", function () {
+      subjectDropdown.innerHTML = '<option value="">Select Subject</option>';
+      subjectDropdown.disabled = true;
+
+      const campus = campusDropdown.value;
+      const type = teacherTypeDropdown.value;
+      const teacherID = this.value;
+      const teacher = teachersData[campus][type].find(t => t.id === teacherID);
+
       if (teacher) {
-        document.getElementById("name").value = teacher.name;
         document.getElementById("teacherID").value = teacher.id;
+       if (teacher.subject) {
+  const opt = document.createElement("option");
+  opt.value = teacher.subject;
+  opt.textContent = teacher.subject;
+  subjectDropdown.appendChild(opt);
+  subjectDropdown.disabled = false;
+}
+
       }
     });
 
-    document.getElementById('evaluationForm').addEventListener('submit', function (e) {
+    document.getElementById("evaluationForm").addEventListener("submit", function(e) {
       e.preventDefault();
-      const formData = new FormData(e.target);
+      const formData = new FormData(this);
       const entries = {};
-      formData.forEach((value, key) => entries[key] = value);
-      entries.average = document.getElementById('totalScore').textContent.split("Average: ")[1];
+      formData.forEach((v,k)=> entries[k]=v);
+      entries.totalScore = document.getElementById("totalScore").textContent;
       entries.teacherID = document.getElementById("teacherID").value;
-      entries.name = document.getElementById("name").value;
+      entries.subject = document.getElementById("subjectDropdown").value;
       entries.date = document.getElementById("date").value;
 
-      const previous = JSON.parse(localStorage.getItem("teacherEvaluations") || "[]");
-      previous.push(entries);
-      localStorage.setItem("teacherEvaluations", JSON.stringify(previous));
+      const records = JSON.parse(localStorage.getItem("teacherEvaluations") || "[]");
+      records.push(entries);
+      localStorage.setItem("teacherEvaluations", JSON.stringify(records));
       alert("Form saved successfully!");
     });
 
-    function printForm() {
-      window.print();
-    }
+    function printForm() { window.print(); }
+    function downloadPDF() { html2pdf().from(document.getElementById("formContainer")).save("Teacher-Evaluation.pdf"); }
 
-    function downloadPDF() {
-      const element = document.getElementById('formContainer');
-      html2pdf().from(element).save("Teacher-Evaluation.pdf");
-    }
-
-    document.addEventListener("DOMContentLoaded", function () {
-      const role = localStorage.getItem("adminRole");
-      const navbar = document.getElementById("navbar-links");
-      if (role === "supervisor") {
-        const adminLink = document.createElement("a");
-        adminLink.id = "navAdmin";
-        adminLink.href = "admin.html";
-        adminLink.textContent = "Admin";
-        adminLink.style.color = "white";
-        navbar.appendChild(adminLink);
-      }
-    });
-
-    function logout() {
+    function logout(){
       localStorage.removeItem("loggedInAdmin");
       localStorage.removeItem("adminRole");
       window.location.href = "login.html";
     }
+
+    document.addEventListener("DOMContentLoaded", function(){
+      if(localStorage.getItem("adminRole")==="supervisor"){
+        const l = document.createElement("a");
+        l.href="admin.html";
+        l.textContent="Admin";
+        l.style.color="white";
+        document.getElementById("navbar-links").appendChild(l);
+      }
+    });
   </script>
 </body>
 </html>

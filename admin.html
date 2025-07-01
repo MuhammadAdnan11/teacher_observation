@@ -1,406 +1,383 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Panel - Teacher Observation</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-    />
-    <style>
-      body {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background-color: #f5f7fa;
-        /* padding: 20px; */
-        margin: 0;
-      }
-      .container {
-        max-width: 1100px;
-        margin: 30px auto;
-        background: white;
-        padding: 25px;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      }
-      h2 {
-        text-align: center;
-        margin-bottom: 20px;
-      }
-      .admin-section {
-        margin-bottom: 30px;
-      }
-      input,
-      select,
-      button {
-        padding: 10px;
-        margin: 5px;
-        border-radius: 5px;
-        border: 1px solid #ccc;
-        font-size: 14px;
-      }
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-      }
-      th,
-      td {
-        border: 1px solid #ccc;
-        padding: 10px;
-        text-align: left;
-      }
-      th {
-        background-color: #1976d2;
-        color: white;
-      }
-      .btn {
-        background-color: #1976d2;
-        color: white;
-        cursor: pointer;
-      }
-      .btn:hover {
-        background-color: #125aa3;
-      }
-      .performance-low {
-        background-color: #ffdddd;
-      }
-      .performance-medium {
-        background-color: #fff5cc;
-      }
-      .performance-high {
-        background-color: #ddffdd;
-      }
-
-    
-       nav a {
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Panel - Teacher Observation</title>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+  />
+  <style>
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f0f2f5;
+      margin: 0;
+    }
+    nav {
+      background-color: #1976d2;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    nav img { height: 50px; border-radius: 50%; }
+    nav span { color: white; font-size: 22px; font-weight: 600; }
+    nav a {
       color: white;
       text-decoration: none;
-      margin-left: 8px;
+      margin-left: 16px;
       font-weight: 500;
     }
-     
-    </style>
+    nav a:hover { color: #cce7ff; }
+    nav button {
+      background: white;
+      color: #1976d2;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    nav button:hover { background: #e6e6e6; }
+    .container {
+      max-width: 1100px;
+      margin: 30px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    }
+    h2 { text-align: center; margin-bottom: 30px; }
+    .admin-section {
+      margin-bottom: 40px;
+    }
+    .admin-section h3 {
+      margin-bottom: 15px;
+      border-left: 4px solid #1976d2;
+      padding-left: 8px;
+      color: #1976d2;
+    }
+    input, select {
+      padding: 12px;
+      margin: 5px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      width: 100%;
+      font-size: 14px;
+    }
+    input:focus, select:focus {
+      border-color: #1976d2;
+      outline: none;
+    }
+    .btn {
+      background-color: #1976d2;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 18px;
+      margin: 5px 0;
+      cursor: pointer;
+    }
+    .btn:hover { background-color: #125aa3; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: left;
+    }
+    th { background-color: #1976d2; color: white; }
+    tr:hover { background-color: #f9f9f9; }
+    .performance-low { background-color: #fdecea; }
+    .performance-medium { background-color: #fff8e6; }
+    .performance-high { background-color: #e7f7e8; }
+    ul { list-style: none; padding: 0; }
+    ul li {
+      background: #f9f9f9;
+      margin: 6px 0;
+      padding: 10px 14px;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+      word-wrap: break-word;
+    }
+    ul li button {
+      padding: 4px 10px;
+      font-size: 12px;
+      margin-left: 10px;
+    }
+    #adminMessage { margin-top: 10px; font-weight: 500; }
+  </style>
+  <script>
+    const role = localStorage.getItem("adminRole");
+    if (role !== "supervisor") {
+      alert("Access denied. Supervisors only.");
+      window.location.href = "index.html";
+    }
+  </script>
+</head>
+<body>
+  <nav>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <img src="logo.jpg" alt="GIMS Logo">
+      <span>GIMS Peshawar</span>
+    </div>
+    <div id="navbar-links" style="display:flex;align-items:center;gap:20px;">
+      <a href="index.html">Home</a>
+      <a href="records.html">Records</a>
+      <button onclick="logout()">Logout</button>
+    </div>
+  </nav>
 
-    <script>
-      const role = localStorage.getItem("adminRole");
-      if (role !== "supervisor") {
-        alert("Access denied. Supervisors only.");
-        window.location.href = "index.html";
-      }
-    </script>
-  </head>
-  <body>
-    <nav style="background-color: #1976d2; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between;">
-  <div style="display: flex; align-items: center; gap: 10px;">
-    <img src="logo.jpg" alt="GIMS Logo" style="height: 50px; border-radius: 50%;">
-    <span style="color: white; font-size: 20px; font-weight: bold;">GIMS Peshawar</span>
-  </div>
-  <div id="navbar-links" style="display: flex; align-items: center; gap: 20px;">
-    <a href="index.html" style="color: white; text-decoration: none;">Home</a>
-    <a href="records.html" style="color: white; text-decoration: none;">Records</a>
-    <!-- Admin link will be added dynamically for supervisor -->
-    <button onclick="logout()" style="background: #ffffff; color: #1976d2; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: 500;">Logout</button>
-  </div>
-</nav>
+  <div class="container">
+    <h2>Admin Panel (Supervisor)</h2>
 
-    <div class="container">
-      <h2>Admin Panel (Supervisor)</h2>
-
-      <!-- Admin Management -->
-      <div class="admin-section">
-        <h3>Create New Admin</h3>
-        <input type="text" id="newAdminEmail" placeholder="Admin Email" />
-        <input type="password" id="newAdminPassword" placeholder="Password" />
-        <button class="btn" onclick="createAdmin()">Create Admin</button>
-
-        <!-- Success message placeholder -->
-        <p id="adminMessage" style="color: green; font-weight: 500"></p>
-
-        <h3>Existing Admins</h3>
-        <ul id="adminList"></ul>
-      </div>
-
-      <!-- Teacher Type & Name Creation -->
-<div class="admin-section">
-  <h3>Add Teacher Type & Name</h3>
-  <input type="text" id="teacherType" placeholder="e.g. Anatomy, Biochemistry">
-  <input type="text" id="teacherName" placeholder="e.g. Dr. Ayesha">
-  <button class="btn" onclick="addTeacher()">Add Teacher</button>
-  <ul id="teacherList"></ul>
-</div>
-
-
-
-      <!-- Search & Filter -->
-      <div class="admin-section">
-        <h3>Search Records</h3>
-        <input
-          type="text"
-          id="searchName"
-          placeholder="Search by Teacher Name"
-        />
-        <input type="text" id="searchID" placeholder="Search by Teacher ID" />
-        <button class="btn" onclick="filterRecords()">Search</button>
-        <button class="btn" onclick="exportToExcel()">Export as Excel</button>
-      </div>
-
-      <!-- Records Table -->
-      <div class="admin-section">
-        <h3>Teacher Evaluation Records</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>Teacher ID</th>
-              <th>Teacher Name</th>
-              <th>Date</th>
-              <th>Average Score</th>
-              <th>Performance</th>
-            </tr>
-          </thead>
-          <tbody id="recordTableBody">
-            <!-- Rows will be added dynamically -->
-          </tbody>
-        </table>
-      </div>
-   
-<!-- Criteria Management -->
-<div class="admin-section">
-  <h3>Manage Evaluation Criteria</h3>
-  <input type="text" id="newCriteria" placeholder="Enter new criterion">
-  <button class="btn" onclick="addCriterion()">Add Criterion</button>
-  <ul id="criteriaList"></ul>
-</div>
-
-
-
+    <!-- Admin Management -->
+    <div class="admin-section">
+      <h3>Manage Admins</h3>
+      <input id="newAdminEmail" placeholder="Admin Email">
+      <input id="newAdminPassword" placeholder="Password" type="password">
+      <select id="newAdminCampus">
+        <option value="">Select Campus</option>
+        <option>Main Campus</option>
+        <option>Phase-3 Campus</option>
+        <option>Gulabad Campus</option>
+      </select>
+      <button class="btn" onclick="createAdmin()">Create Admin</button>
+      <p id="adminMessage"></p>
+      <ul id="adminList"></ul>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-    <script>
-      // Placeholder admin list logic
-      const admins = JSON.parse(localStorage.getItem("admins") || "[]");
+    <!-- Teacher Section -->
+    <div class="admin-section">
+      <h3>Add Teacher</h3>
+      <input id="teacherType" placeholder="Teacher Type (e.g. Diploma Teacher , Nursing Teacher)">
+      <input id="teacherName" placeholder="Teacher Name (e.g. Dr. Ayesha)">
+      <input id="teacherSubject" placeholder="Subject (e.g. Physiology)">
+      <select id="teacherCampus">
+        <option value="">Select Campus</option>
+        <option>Main Campus</option>
+        <option>Phase-3 Campus</option>
+        <option>Gulabad Campus</option>
+      </select>
+      <button class="btn" onclick="addTeacher()">Add Teacher</button>
+      <ul id="teacherList"></ul>
+    </div>
 
-      function createAdmin() {
-        const email = document.getElementById("newAdminEmail").value;
-        const pass = document.getElementById("newAdminPassword").value;
-        const messageE1 = document.getElementById("adminMessage");
-        if (email && pass) {
-          admins.push({ email, pass });
-          localStorage.setItem("admins", JSON.stringify(admins));
-          // alert("Admin created");
+    <!-- Search Records -->
+    <div class="admin-section">
+      <h3>Search Records</h3>
+      <input id="searchName" placeholder="Search by Teacher Name">
+      <input id="searchID" placeholder="Search by Teacher ID">
+      <button class="btn" onclick="filterRecords()">Search</button>
+      <button class="btn" onclick="exportToExcel()">Export to Excel</button>
+    </div>
+
+    <!-- Evaluation Records -->
+    <div class="admin-section">
+      <h3>Teacher Evaluation Records</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Teacher ID</th>
+            <th>Teacher Name</th>
+            <th>Date</th>
+            <th>Average Score</th>
+            <th>Performance</th>
+          </tr>
+        </thead>
+        <tbody id="recordTableBody"></tbody>
+      </table>
+    </div>
+
+    <!-- Criteria -->
+    <div class="admin-section">
+      <h3>Manage Evaluation Criteria</h3>
+      <input id="newCriteria" placeholder="Enter new criterion">
+      <button class="btn" onclick="addCriterion()">Add Criterion</button>
+      <ul id="criteriaList"></ul>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script>
+    // Admin
+    const admins = JSON.parse(localStorage.getItem("admins") || "[]");
+    function createAdmin() {
+      const email = document.getElementById("newAdminEmail").value.trim();
+      const pass = document.getElementById("newAdminPassword").value.trim();
+      const campus = document.getElementById("newAdminCampus").value;
+      const msg = document.getElementById("adminMessage");
+      if (email && pass && campus) {
+        admins.push({ email, pass, campus });
+        localStorage.setItem("admins", JSON.stringify(admins));
+        loadAdmins();
+        msg.textContent = "Admin created!";
+        msg.style.color="green";
+        setTimeout(()=>msg.textContent="",2000);
+        document.getElementById("newAdminEmail").value="";
+        document.getElementById("newAdminPassword").value="";
+        document.getElementById("newAdminCampus").value="";
+      } else {
+        msg.textContent="Fill all fields!";
+        msg.style.color="red";
+      }
+    }
+    function loadAdmins() {
+      const list = document.getElementById("adminList");
+      list.innerHTML="";
+      admins.forEach((a,i)=>{
+        const li=document.createElement("li");
+        li.textContent=`${a.email} (${a.campus})`;
+        const del=document.createElement("button");
+        del.textContent="Remove";
+        del.onclick=()=>{
+          admins.splice(i,1);
+          localStorage.setItem("admins",JSON.stringify(admins));
           loadAdmins();
+        }
+        li.appendChild(del);
+        list.appendChild(li);
+      });
+    }
+    loadAdmins();
 
-          //let's clear field after creation
-          document.getElementById("newAdminEmail").value = "";
-          document.getElementById("newAdminPassword").value = "";
+    // Teachers
+    function addTeacher() {
+      const type = document.getElementById("teacherType").value.trim();
+      const name = document.getElementById("teacherName").value.trim();
+      const subject = document.getElementById("teacherSubject").value.trim();
+      const campus = document.getElementById("teacherCampus").value;
+      if (!type || !name || !subject || !campus) {
+        alert("Please fill all fields");
+        return;
+      }
+      let data = JSON.parse(localStorage.getItem("teachers") || "{}");
+      if (!data[campus]) data[campus] = {};
+      if (!data[campus][type]) data[campus][type] = [];
+      const id = `${type.slice(0,3).toUpperCase()}${data[campus][type].length+1}`.padEnd(6,"0");
+      data[campus][type].push({name,subject,id});
+      // add this block to store subject list for dropdown
+let subjectList = JSON.parse(localStorage.getItem("subjects") || "[]");
+if (!subjectList.includes(subject)) {
+  subjectList.push(subject);
+  localStorage.setItem("subjects", JSON.stringify(subjectList));
+}
 
-          //Show success message
-          messageE1.textContent = "Admin created successfully!";
-          setTimeout(() => {
-            messageE1.textContent = "";
-          }, 3000);
-        } else {
-          messageE1.textContent = "Please enter both email and password.";
-          messageE1.style.color = "red";
+      localStorage.setItem("teachers", JSON.stringify(data));
+      document.getElementById("teacherType").value="";
+      document.getElementById("teacherName").value="";
+      document.getElementById("teacherSubject").value="";
+      document.getElementById("teacherCampus").value="";
+      showTeachers();
+    }
+    function showTeachers() {
+      const data = JSON.parse(localStorage.getItem("teachers") || "{}");
+      const list = document.getElementById("teacherList");
+      list.innerHTML="";
+      for(const campus in data){
+        const head=document.createElement("li");
+        head.style.fontWeight="bold";
+        head.textContent=`🏫 ${campus}`;
+        list.appendChild(head);
+        for(const type in data[campus]){
+          data[campus][type].forEach(t=>{
+            const li=document.createElement("li");
+            li.textContent=`${type} - ${t.name} - ${t.subject} (${t.id})`;
+            list.appendChild(li);
+          })
         }
       }
+    }
+    showTeachers();
 
-      function loadAdmins() {
-        const list = document.getElementById("adminList");
-        list.innerHTML = "";
-        admins.forEach((admin, index) => {
-          const li = document.createElement("li");
-          li.textContent = admin.email;
-          const removeBtn = document.createElement("button");
-          removeBtn.textContent = "Remove";
-          removeBtn.className = "btn";
-          removeBtn.onclick = () => {
-            admins.splice(index, 1);
-            localStorage.setItem("admins", JSON.stringify(admins));
-            loadAdmins();
-          };
-          li.appendChild(removeBtn);
-          list.appendChild(li);
-        });
-      }
-
-      loadAdmins();
-
-      // Example records logic (replace with real evaluation data)
-      const records = JSON.parse(
-        localStorage.getItem("teacherRecords") || "[]"
-      );
-
-      function filterRecords() {
-        const name = document.getElementById("searchName").value.toLowerCase();
-        const id = document.getElementById("searchID").value;
-        const tbody = document.getElementById("recordTableBody");
-        tbody.innerHTML = "";
-        records
-          .filter(
-            (r) =>
-              (!name || r.name.toLowerCase().includes(name)) &&
-              (!id || r.teacherID.includes(id))
-          )
-          .forEach((r) => {
-            const row = document.createElement("tr");
-            const perfClass =
-              r.average < 2.5
-                ? "performance-low"
-                : r.average < 4
-                ? "performance-medium"
-                : "performance-high";
-            row.classList.add(perfClass);
-            row.innerHTML = `
+    // Records
+    const records = JSON.parse(localStorage.getItem("teacherEvaluations") || "[]");
+    function filterRecords() {
+      const name = document.getElementById("searchName").value.toLowerCase();
+      const id = document.getElementById("searchID").value;
+      const tbody = document.getElementById("recordTableBody");
+      tbody.innerHTML="";
+      records.filter(r =>
+        (!name || r.name.toLowerCase().includes(name)) &&
+        (!id || r.teacherID.includes(id))
+      ).forEach(r=>{
+        const row=document.createElement("tr");
+        const perfClass = r.average < 2.5 ? "performance-low" : r.average<4 ? "performance-medium" : "performance-high";
+        row.classList.add(perfClass);
+        row.innerHTML=`
           <td>${r.teacherID}</td>
           <td>${r.name}</td>
           <td>${r.date}</td>
           <td>${r.average}</td>
-          <td>${perfClass.replace("performance-", "").toUpperCase()}</td>
-        `;
-            tbody.appendChild(row);
-          });
-      }
-
-      function exportToExcel() {
-        const wb = XLSX.utils.book_new();
-        const wsData = [
-          ["Teacher ID", "Teacher Name", "Date", "Average Score"],
-        ];
-        records.forEach((r) => {
-          wsData.push([r.teacherID, r.name, r.date, r.average]);
-        });
-        const ws = XLSX.utils.aoa_to_sheet(wsData);
-        XLSX.utils.book_append_sheet(wb, ws, "Records");
-        XLSX.writeFile(wb, "Teacher-Evaluation-Records.xlsx");
-      }
-
-      // Show "Admin" link only for supervisor
-      document.addEventListener("DOMContentLoaded", function () {
-        const role = localStorage.getItem("adminRole");
-        const navbar = document.getElementById("navbar-links");
-
-        if (role === "supervisor") {
-          const adminLink = document.createElement("a");
-          adminLink.id = "navAdmin";
-          adminLink.href = "admin.html";
-          adminLink.textContent = "Admin";
-          navbar.appendChild(adminLink);
-        }
+          <td>${perfClass.replace("performance-","").toUpperCase()}</td>`;
+        tbody.appendChild(row);
       });
+    }
+    function exportToExcel() {
+      const wb=XLSX.utils.book_new();
+      const wsData=[["Teacher ID","Teacher Name","Date","Average"]];
+      records.forEach(r=>wsData.push([r.teacherID,r.name,r.date,r.average]));
+      const ws=XLSX.utils.aoa_to_sheet(wsData);
+      XLSX.utils.book_append_sheet(wb,ws,"Records");
+      XLSX.writeFile(wb,"Teacher-Evaluation-Records.xlsx");
+    }
 
-  const teacherData = JSON.parse(localStorage.getItem("teachers") || "[]");
-
-function addTeacher() {
-  const type = document.getElementById("teacherType").value.trim();
-  const name = document.getElementById("teacherName").value.trim();
-
-  if (!type || !name) return;
-
-  // Load existing structured object
-  const teacherData = JSON.parse(localStorage.getItem("teachers") || "{}");
-
-  if (!teacherData[type]) {
-    teacherData[type] = [];
-  }
-
-  // Generate ID based on type and number
-  const idPrefix = type.split(" ")[0].toUpperCase().slice(0, 3);
-  const teacherID = `${idPrefix}${teacherData[type].length + 1}`.padEnd(6, "0");
-
-  teacherData[type].push({ name, id: teacherID });
-
-  localStorage.setItem("teachers", JSON.stringify(teacherData));
-
-  document.getElementById("teacherType").value = "";
-  document.getElementById("teacherName").value = "";
-
-  showTeachers();
-}
-
-
- function showTeachers() {
-  const teacherData = JSON.parse(localStorage.getItem("teachers") || "{}");
-  const list = document.getElementById("teacherList");
-  list.innerHTML = "";
-
-  for (const type in teacherData) {
-    teacherData[type].forEach(t => {
-      const li = document.createElement("li");
-      li.textContent = `${type} - ${t.name} (${t.id})`;
-      list.appendChild(li);
-    });
-  }
-}
-
-
-  showTeachers();
-
-
-// Load criteria from localStorage or initialize default array
-function loadCriteria() {
-  const criteria = JSON.parse(localStorage.getItem("evaluationCriteria") || "[]");
-  const list = document.getElementById("criteriaList");
-  list.innerHTML = "";
-
-  criteria.forEach((crit, index) => {
-    const li = document.createElement("li");
-
-    const input = document.createElement("input");
-    input.type = "text";
-    input.value = crit;
-    input.style.marginRight = "10px";
-
-    const saveBtn = document.createElement("button");
-    saveBtn.textContent = "Save";
-    saveBtn.className = "btn";
-    saveBtn.onclick = () => {
-      criteria[index] = input.value.trim();
-      localStorage.setItem("evaluationCriteria", JSON.stringify(criteria));
+    // Criteria
+    function addCriterion() {
+      const crit=document.getElementById("newCriteria").value.trim();
+      if(!crit)return;
+      const criteria=JSON.parse(localStorage.getItem("evaluationCriteria")||"[]");
+      criteria.push(crit);
+      localStorage.setItem("evaluationCriteria",JSON.stringify(criteria));
+      document.getElementById("newCriteria").value="";
       loadCriteria();
-    };
+    }
+    function loadCriteria() {
+      const criteria=JSON.parse(localStorage.getItem("evaluationCriteria")||"[]");
+      const list=document.getElementById("criteriaList");
+      list.innerHTML="";
+      criteria.forEach((c,i)=>{
+        const li=document.createElement("li");
+        const input=document.createElement("input");
+        input.value=c;
+        input.style.width="70%";
+        input.style.marginRight="5px";
+        const save=document.createElement("button");
+        save.textContent="Save";
+        save.className="btn";
+        save.style.padding="4px 8px";
+        save.onclick=()=>{
+          criteria[i]=input.value;
+          localStorage.setItem("evaluationCriteria",JSON.stringify(criteria));
+          loadCriteria();
+        }
+        const del=document.createElement("button");
+        del.textContent="Delete";
+        del.className="btn";
+        del.style.padding="4px 8px";
+        del.onclick=()=>{
+          criteria.splice(i,1);
+          localStorage.setItem("evaluationCriteria",JSON.stringify(criteria));
+          loadCriteria();
+        }
+        li.appendChild(input);
+        li.appendChild(save);
+        li.appendChild(del);
+        list.appendChild(li);
+      });
+    }
+    loadCriteria();
 
-    const deleteBtn = document.createElement("button");
-    deleteBtn.textContent = "Delete";
-    deleteBtn.className = "btn";
-    deleteBtn.style.marginLeft = "5px";
-    deleteBtn.onclick = () => {
-      criteria.splice(index, 1);
-      localStorage.setItem("evaluationCriteria", JSON.stringify(criteria));
-      loadCriteria();
-    };
-
-    li.appendChild(input);
-    li.appendChild(saveBtn);
-    li.appendChild(deleteBtn);
-
-    list.appendChild(li);
-  });
-}
-
-function addCriterion() {
-  const newCrit = document.getElementById("newCriteria").value.trim();
-  if (!newCrit) return;
-
-  const criteria = JSON.parse(localStorage.getItem("evaluationCriteria") || "[]");
-  criteria.push(newCrit);
-  localStorage.setItem("evaluationCriteria", JSON.stringify(criteria));
-  document.getElementById("newCriteria").value = "";
-  loadCriteria();
-}
-
-// Load on page load
-loadCriteria();
-
-
-
-
-      function logout() {
-        localStorage.removeItem("loggedInAdmin");
-        localStorage.removeItem("adminRole");
-        window.location.href = "login.html";
-      }
-    </script>
-  </body>
+    function logout(){
+      localStorage.removeItem("loggedInAdmin");
+      localStorage.removeItem("adminRole");
+      window.location.href="login.html";
+    }
+  </script>
+</body>
 </html>
