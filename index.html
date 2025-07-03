@@ -5,92 +5,231 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Teacher Observation Form</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <style>
-    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f9f9f9; margin: 0; padding: 0; }
-    h2, h3 { text-align: center; color: #333; margin-top: 10px; }
-    .container {
-      max-width: 1000px;
-      margin: 30px auto;
-      padding: 20px 30px;
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-    }
-    form { display: flex; flex-direction: column; gap: 20px; }
-    .details {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-      margin-bottom: 20px;
-    }
-    input[type="text"], input[type="date"], input[type="time"], select, textarea {
-      padding: 10px 12px;
-      font-size: 14px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      width: 100%;
-    }
-    input:focus, select:focus, textarea:focus {
-      border-color: #1976d2;
-      outline: none;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-    }
-    th, td {
-      border: 1px solid #ddd;
-      padding: 10px;
-    }
-    th { background-color: #1976d2; color: white; }
-    td input[type="radio"] { margin: 0 4px; }
-    .btn-group {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin-top: 20px;
-    }
-    button {
-      padding: 10px 20px;
-      background-color: #1976d2;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 500;
-    }
-    button:hover { background-color: #125aa3; }
-    .total-score {
-      text-align: center;
-      font-weight: bold;
-      font-size: 16px;
-      background: #e3f2fd;
-      padding: 10px;
-      border-radius: 6px;
-      color: #1976d2;
-    }
+ <style>
+  body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0f2f5;
+  margin: 0;
+  padding: 0;
+}
 
-        nav {
-      background-color: #1976d2;
-      color: white;
-      padding: 10px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
+h2, h3 {
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 10px;
+}
 
-    nav img {
-      height: 50px;
-    }
+.container {
+  max-width: 1000px;
+  margin: 30px auto;
+  padding: 20px 30px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+.container:hover {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
 
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin-left: 8px;
-      font-weight: 500;
-    }
-  </style>
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.details > * {
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .details {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* styled input & select fields */
+input[type="text"],
+input[type="date"],
+input[type="time"],
+select,
+textarea {
+  padding: 12px 14px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: linear-gradient(to bottom, #ffffff, #f9f9f9);
+  transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
+}
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #1976d2;
+  box-shadow: 0 0 6px rgba(25, 118, 210, 0.3);
+  background: linear-gradient(to bottom, #ffffff, #e3f2fd);
+  outline: none;
+}
+select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20fill%3D%22%231976d2%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20width%3D%2224%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M7%2010l5%205%205-5H7z%22/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px 16px;
+}
+select:disabled {
+  background-color: #f1f1f1;
+  color: #999;
+}
+
+/* disabled fields style */
+input:disabled,
+select:disabled {
+  background-color: #f1f1f1;
+  color: #999;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+th {
+  background-color: #1976d2;
+  color: white;
+}
+td input[type="radio"] {
+  margin: 0 4px;
+  cursor: pointer;
+}
+td input[type="text"] {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 6px;
+  transition: border-color 0.3s;
+}
+td input[type="text"]:focus {
+  border-color: #1976d2;
+}
+
+.btn-group {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+button {
+  padding: 10px 20px;
+  background: linear-gradient(to right, #1976d2, #0d47a1);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.3s, transform 0.2s;
+}
+button:hover {
+  background: linear-gradient(to right, #125aa3, #0d47a1);
+  transform: translateY(-2px);
+}
+button:active {
+  transform: scale(0.97);
+}
+
+.total-score {
+  text-align: center;
+  font-weight: bold;
+  font-size: 16px;
+  background: #e3f2fd;
+  padding: 10px;
+  border-radius: 6px;
+  color: #1976d2;
+}
+
+nav {
+  background-color: #1976d2;
+  color: white;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+nav img {
+  height: 50px;
+  border-radius: 50%;
+  transition: transform 0.3s;
+}
+nav img:hover {
+  transform: rotate(5deg) scale(1.05);
+}
+nav a {
+  color: white;
+  text-decoration: none;
+  margin-left: 8px;
+  font-weight: 500;
+  position: relative;
+  transition: color 0.3s;
+}
+nav a:hover {
+  color: #cfe2f3;
+}
+nav a::after {
+  content: "";
+  display: block;
+  width: 0%;
+  height: 2px;
+  background: white;
+  transition: width 0.3s;
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+}
+nav a:hover::after {
+  width: 100%;
+}
+nav button {
+  background: #ffffff;
+  color: #1976d2;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s, color 0.3s;
+}
+nav button:hover {
+  background-color: #e3f2fd;
+  color: #125aa3;
+}
+
+
+input[type="text"] {
+  background: #fff;
+  border: 1px solid #ccc;
+  color: #333;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input[type="text"]:focus {
+  background: #fff;
+  border-color: #1976d2;
+  box-shadow: 0 0 6px rgba(25, 118, 210, 0.3);
+}
+
+ </style>
   <script>
     if (!localStorage.getItem("loggedInAdmin")) {
       window.location.href = "login.html";
@@ -244,17 +383,21 @@
       const teacherID = this.value;
       const teacher = teachersData[campus][type].find(t => t.id === teacherID);
 
-      if (teacher) {
-        document.getElementById("teacherID").value = teacher.id;
-       if (teacher.subject) {
-  const opt = document.createElement("option");
-  opt.value = teacher.subject;
-  opt.textContent = teacher.subject;
-  subjectDropdown.appendChild(opt);
-  subjectDropdown.disabled = false;
+if (teacher) {
+  document.getElementById("teacherID").value = teacher.id;
+  if (teacher.subject) {
+    // split subjects by comma
+    const subjects = teacher.subject.split(",").map(s => s.trim());
+    subjects.forEach(sub => {
+      const opt = document.createElement("option");
+      opt.value = sub;
+      opt.textContent = sub;
+      subjectDropdown.appendChild(opt);
+    });
+    subjectDropdown.disabled = false;
+  }
 }
 
-      }
     });
 
     document.getElementById("evaluationForm").addEventListener("submit", function(e) {
