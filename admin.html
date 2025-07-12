@@ -4,10 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Admin Panel - Teacher Observation</title>
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-  />
+
+  <!-- Font Awesome (icons) -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+
+  <!-- ─────────────────────────  STYLES  ────────────────────────── -->
   <style>
     body {
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -41,6 +43,7 @@
       font-weight: 500;
     }
     nav button:hover { background: #e6e6e6; }
+
     .container {
       max-width: 1100px;
       margin: 30px auto;
@@ -50,15 +53,15 @@
       box-shadow: 0 4px 16px rgba(0,0,0,0.1);
     }
     h2 { text-align: center; margin-bottom: 30px; }
-    .admin-section {
-      margin-bottom: 40px;
-    }
+
+    .admin-section { margin-bottom: 40px; }
     .admin-section h3 {
       margin-bottom: 15px;
       border-left: 4px solid #1976d2;
       padding-left: 8px;
       color: #1976d2;
     }
+
     input, select {
       padding: 12px;
       margin: 5px 0;
@@ -71,6 +74,7 @@
       border-color: #1976d2;
       outline: none;
     }
+
     .btn {
       background-color: #1976d2;
       color: white;
@@ -81,6 +85,7 @@
       cursor: pointer;
     }
     .btn:hover { background-color: #125aa3; }
+
     table {
       width: 100%;
       border-collapse: collapse;
@@ -93,9 +98,11 @@
     }
     th { background-color: #1976d2; color: white; }
     tr:hover { background-color: #f9f9f9; }
-    .performance-low { background-color: #fdecea; }
+
+    .performance-low    { background-color: #fdecea; }
     .performance-medium { background-color: #fff8e6; }
-    .performance-high { background-color: #e7f7e8; }
+    .performance-high   { background-color: #e7f7e8; }
+
     ul { list-style: none; padding: 0; }
     ul li {
       background: #f9f9f9;
@@ -112,15 +119,17 @@
     }
     #adminMessage { margin-top: 10px; font-weight: 500; }
   </style>
+
+  <!-- Route‑guard: only supervisors may view this page -->
   <script>
-    const role = localStorage.getItem("adminRole");
-    if (role !== "supervisor") {
+    if (localStorage.getItem("adminRole") !== "supervisor") {
       alert("Access denied. Supervisors only.");
-      window.location.href = "index.html";
+      location.href = "index.html";
     }
   </script>
 </head>
 <body>
+  <!-- ────────────────────────  NAVBAR  ──────────────────────── -->
   <nav>
     <div style="display:flex;align-items:center;gap:10px;">
       <img src="logo.jpg" alt="GIMS Logo">
@@ -136,11 +145,11 @@
   <div class="container">
     <h2>Admin Panel (Supervisor)</h2>
 
-    <!-- Admin Management -->
+    <!-- ─────  MANAGE ADMINS  ───── -->
     <div class="admin-section">
       <h3>Manage Admins</h3>
-      <input id="newAdminEmail" placeholder="Admin Email">
-      <input id="newAdminPassword" placeholder="Password" type="password">
+      <input id="newAdminEmail"     placeholder="Admin Email">
+      <input id="newAdminPassword"  placeholder="Password" type="password">
       <select id="newAdminCampus">
         <option value="">Select Campus</option>
         <option>Main Campus</option>
@@ -152,12 +161,15 @@
       <ul id="adminList"></ul>
     </div>
 
-    <!-- Teacher Section -->
+    <!-- ─────  ADD TEACHER  (multi‑subject)  ───── -->
     <div class="admin-section">
       <h3>Add Teacher</h3>
-      <input id="teacherType" placeholder="Teacher Type (e.g. Diploma Teacher , Nursing Teacher)">
-      <input id="teacherName" placeholder="Teacher Name (e.g. Dr. Ayesha)">
-      <input id="teacherSubject" placeholder="Subject (e.g. Physiology)">
+      <input id="teacherType"
+             placeholder="Teacher Type (e.g. Diploma Teacher, Nursing Teacher)">
+      <input id="teacherName"
+             placeholder="Teacher Name (e.g. Dr. Ayesha)">
+      <input id="teacherSubject"
+             placeholder="Subject(s) — separate with commas e.g. Physiology, Anatomy">
       <select id="teacherCampus">
         <option value="">Select Campus</option>
         <option>Main Campus</option>
@@ -168,16 +180,16 @@
       <ul id="teacherList"></ul>
     </div>
 
-    <!-- Search Records -->
+    <!-- ─────  SEARCH / EXPORT  ───── -->
     <div class="admin-section">
       <h3>Search Records</h3>
       <input id="searchName" placeholder="Search by Teacher Name">
-      <input id="searchID" placeholder="Search by Teacher ID">
+      <input id="searchID"   placeholder="Search by Teacher ID">
       <button class="btn" onclick="filterRecords()">Search</button>
       <button class="btn" onclick="exportToExcel()">Export to Excel</button>
     </div>
 
-    <!-- Evaluation Records -->
+    <!-- ─────  TEACHER EVALUATION RECORDS  ───── -->
     <div class="admin-section">
       <h3>Teacher Evaluation Records</h3>
       <table>
@@ -194,7 +206,7 @@
       </table>
     </div>
 
-    <!-- Criteria -->
+    <!-- ─────  MANAGE EVALUATION CRITERIA  ───── -->
     <div class="admin-section">
       <h3>Manage Evaluation Criteria</h3>
       <input id="newCriteria" placeholder="Enter new criterion">
@@ -203,113 +215,149 @@
     </div>
   </div>
 
+  <!-- XLSX for spreadsheet export -->
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+  <!-- ─────────────────────────  SCRIPT  ────────────────────────── -->
   <script>
-    // Admin
-    const admins = JSON.parse(localStorage.getItem("admins") || "[]");
-    function createAdmin() {
-      const email = document.getElementById("newAdminEmail").value.trim();
-      const pass = document.getElementById("newAdminPassword").value.trim();
-      const campus = document.getElementById("newAdminCampus").value;
-      const msg = document.getElementById("adminMessage");
-      if (email && pass && campus) {
-        admins.push({ email, pass, campus });
+  /* ─────  ADMIN MANAGEMENT  ───── */
+  const admins = JSON.parse(localStorage.getItem("admins") || "[]");
+
+  function createAdmin() {
+    const email  = document.getElementById("newAdminEmail").value.trim();
+    const pass   = document.getElementById("newAdminPassword").value.trim();
+    const campus = document.getElementById("newAdminCampus").value;
+    const msg    = document.getElementById("adminMessage");
+
+    if (email && pass && campus) {
+      admins.push({ email, pass, campus });
+      localStorage.setItem("admins", JSON.stringify(admins));
+      loadAdmins();
+      msg.textContent = "Admin created!";
+      msg.style.color = "green";
+      setTimeout(() => msg.textContent = "", 2000);
+      document.getElementById("newAdminEmail").value = "";
+      document.getElementById("newAdminPassword").value = "";
+      document.getElementById("newAdminCampus").value  = "";
+    } else {
+      msg.textContent = "Fill all fields!";
+      msg.style.color = "red";
+    }
+  }
+
+  function loadAdmins() {
+    const list = document.getElementById("adminList");
+    list.innerHTML = "";
+    admins.forEach((a, i) => {
+      const li  = document.createElement("li");
+      li.textContent = `${a.email} (${a.campus})`;
+
+      const del = document.createElement("button");
+      del.textContent = "Remove";
+      del.onclick = () => {
+        admins.splice(i, 1);
         localStorage.setItem("admins", JSON.stringify(admins));
         loadAdmins();
-        msg.textContent = "Admin created!";
-        msg.style.color="green";
-        setTimeout(()=>msg.textContent="",2000);
-        document.getElementById("newAdminEmail").value="";
-        document.getElementById("newAdminPassword").value="";
-        document.getElementById("newAdminCampus").value="";
-      } else {
-        msg.textContent="Fill all fields!";
-        msg.style.color="red";
-      }
+      };
+
+      li.appendChild(del);
+      list.appendChild(li);
+    });
+  }
+  loadAdmins();
+
+  /* ─────  TEACHERS  – multi‑subject support  ───── */
+  function addTeacher() {
+    const type    = document.getElementById("teacherType").value.trim();
+    const name    = document.getElementById("teacherName").value.trim();
+    const rawSubj = document.getElementById("teacherSubject").value.trim();
+    const campus  = document.getElementById("teacherCampus").value;
+
+    if (!type || !name || !rawSubj || !campus) {
+      alert("Please fill all fields");
+      return;
     }
-    function loadAdmins() {
-      const list = document.getElementById("adminList");
-      list.innerHTML="";
-      admins.forEach((a,i)=>{
-        const li=document.createElement("li");
-        li.textContent=`${a.email} (${a.campus})`;
-        const del=document.createElement("button");
-        del.textContent="Remove";
-        del.onclick=()=>{
-          admins.splice(i,1);
-          localStorage.setItem("admins",JSON.stringify(admins));
-          loadAdmins();
-        }
-        li.appendChild(del);
+
+    // split comma‑separated string into clean array
+    const subjects = rawSubj
+      .split(",")
+      .map(s => s.trim())
+      .filter(Boolean);
+
+    /* ---------- store teacher ---------- */
+    const data = JSON.parse(localStorage.getItem("teachers") || "{}");
+    if (!data[campus])       data[campus] = {};
+    if (!data[campus][type]) data[campus][type] = [];
+
+    const id =
+      `${type.slice(0,3).toUpperCase()}${data[campus][type].length + 1}`.padEnd(6, "0");
+
+    data[campus][type].push({ name, subjects, id });
+    localStorage.setItem("teachers", JSON.stringify(data));
+
+    /* ---------- keep master subject list ---------- */
+    const master = JSON.parse(localStorage.getItem("subjects") || "[]");
+    subjects.forEach(s => {
+      if (!master.includes(s)) master.push(s);
+    });
+    localStorage.setItem("subjects", JSON.stringify(master));
+
+    /* reset form + refresh list */
+    ["teacherType","teacherName","teacherSubject","teacherCampus"]
+      .forEach(id => document.getElementById(id).value = "");
+    showTeachers();
+  }
+
+  function showTeachers() {
+  const data = JSON.parse(localStorage.getItem("teachers") || "{}");
+  const list = document.getElementById("teacherList");
+  list.innerHTML = "";
+
+  for (const campus in data) {
+    const head = document.createElement("li");
+    head.style.fontWeight = "bold";
+    head.textContent = `🏫 ${campus}`;
+    list.appendChild(head);
+
+    for (const type in data[campus]) {
+      data[campus][type].forEach(t => {
+        // support both {subject:"..."} and {subjects:["...","..."]}
+        const subjText = Array.isArray(t.subjects)
+          ? t.subjects.join(", ")
+          : (t.subject || "");
+
+        const li = document.createElement("li");
+        li.textContent = `${type} – ${t.name} – ${subjText} (${t.id})`;
         list.appendChild(li);
       });
     }
-    loadAdmins();
-
-    // Teachers
-    function addTeacher() {
-      const type = document.getElementById("teacherType").value.trim();
-      const name = document.getElementById("teacherName").value.trim();
-      const subject = document.getElementById("teacherSubject").value.trim();
-      const campus = document.getElementById("teacherCampus").value;
-      if (!type || !name || !subject || !campus) {
-        alert("Please fill all fields");
-        return;
-      }
-      let data = JSON.parse(localStorage.getItem("teachers") || "{}");
-      if (!data[campus]) data[campus] = {};
-      if (!data[campus][type]) data[campus][type] = [];
-      const id = `${type.slice(0,3).toUpperCase()}${data[campus][type].length+1}`.padEnd(6,"0");
-      data[campus][type].push({name,subject,id});
-      // add this block to store subject list for dropdown
-let subjectList = JSON.parse(localStorage.getItem("subjects") || "[]");
-if (!subjectList.includes(subject)) {
-  subjectList.push(subject);
-  localStorage.setItem("subjects", JSON.stringify(subjectList));
+  }
 }
 
-      localStorage.setItem("teachers", JSON.stringify(data));
-      document.getElementById("teacherType").value="";
-      document.getElementById("teacherName").value="";
-      document.getElementById("teacherSubject").value="";
-      document.getElementById("teacherCampus").value="";
-      showTeachers();
-    }
-    function showTeachers() {
-      const data = JSON.parse(localStorage.getItem("teachers") || "{}");
-      const list = document.getElementById("teacherList");
-      list.innerHTML="";
-      for(const campus in data){
-        const head=document.createElement("li");
-        head.style.fontWeight="bold";
-        head.textContent=`🏫 ${campus}`;
-        list.appendChild(head);
-        for(const type in data[campus]){
-          data[campus][type].forEach(t=>{
-            const li=document.createElement("li");
-            li.textContent=`${type} - ${t.name} - ${t.subject} (${t.id})`;
-            list.appendChild(li);
-          })
-        }
-      }
-    }
-    showTeachers();
+  showTeachers();
 
-    // Records
-    const records = JSON.parse(localStorage.getItem("teacherEvaluations") || "[]");
-    function filterRecords() {
-      const name = document.getElementById("searchName").value.toLowerCase();
-      const id = document.getElementById("searchID").value;
-      const tbody = document.getElementById("recordTableBody");
-      tbody.innerHTML="";
-      records.filter(r =>
+  /* ─────  RECORDS (search + export)  ───── */
+  const records = JSON.parse(localStorage.getItem("teacherEvaluations") || "[]");
+
+  function filterRecords() {
+    const name = document.getElementById("searchName").value.toLowerCase();
+    const id   = document.getElementById("searchID").value;
+    const tbody = document.getElementById("recordTableBody");
+    tbody.innerHTML = "";
+
+    records
+      .filter(r =>
         (!name || r.name.toLowerCase().includes(name)) &&
-        (!id || r.teacherID.includes(id))
-      ).forEach(r=>{
-        const row=document.createElement("tr");
-        const perfClass = r.average < 2.5 ? "performance-low" : r.average<4 ? "performance-medium" : "performance-high";
+        (!id   || r.teacherID.includes(id)))
+      .forEach(r => {
+        const row = document.createElement("tr");
+        const perfClass =
+          r.average < 2.5 ? "performance-low"
+          : r.average < 4 ? "performance-medium"
+          : "performance-high";
         row.classList.add(perfClass);
-        row.innerHTML=`
+
+        row.innerHTML = `
           <td>${r.teacherID}</td>
           <td>${r.name}</td>
           <td>${r.date}</td>
@@ -317,68 +365,75 @@ if (!subjectList.includes(subject)) {
           <td>${perfClass.replace("performance-","").toUpperCase()}</td>`;
         tbody.appendChild(row);
       });
-    }
-    function exportToExcel() {
-      const wb=XLSX.utils.book_new();
-      const wsData=[["Teacher ID","Teacher Name","Date","Average"]];
-      records.forEach(r=>wsData.push([r.teacherID,r.name,r.date,r.average]));
-      const ws=XLSX.utils.aoa_to_sheet(wsData);
-      XLSX.utils.book_append_sheet(wb,ws,"Records");
-      XLSX.writeFile(wb,"Teacher-Evaluation-Records.xlsx");
-    }
+  }
 
-    // Criteria
-    function addCriterion() {
-      const crit=document.getElementById("newCriteria").value.trim();
-      if(!crit)return;
-      const criteria=JSON.parse(localStorage.getItem("evaluationCriteria")||"[]");
-      criteria.push(crit);
-      localStorage.setItem("evaluationCriteria",JSON.stringify(criteria));
-      document.getElementById("newCriteria").value="";
-      loadCriteria();
-    }
-    function loadCriteria() {
-      const criteria=JSON.parse(localStorage.getItem("evaluationCriteria")||"[]");
-      const list=document.getElementById("criteriaList");
-      list.innerHTML="";
-      criteria.forEach((c,i)=>{
-        const li=document.createElement("li");
-        const input=document.createElement("input");
-        input.value=c;
-        input.style.width="70%";
-        input.style.marginRight="5px";
-        const save=document.createElement("button");
-        save.textContent="Save";
-        save.className="btn";
-        save.style.padding="4px 8px";
-        save.onclick=()=>{
-          criteria[i]=input.value;
-          localStorage.setItem("evaluationCriteria",JSON.stringify(criteria));
-          loadCriteria();
-        }
-        const del=document.createElement("button");
-        del.textContent="Delete";
-        del.className="btn";
-        del.style.padding="4px 8px";
-        del.onclick=()=>{
-          criteria.splice(i,1);
-          localStorage.setItem("evaluationCriteria",JSON.stringify(criteria));
-          loadCriteria();
-        }
-        li.appendChild(input);
-        li.appendChild(save);
-        li.appendChild(del);
-        list.appendChild(li);
-      });
-    }
+  function exportToExcel() {
+    const wb = XLSX.utils.book_new();
+    const wsData = [["Teacher ID","Teacher Name","Date","Average"]];
+    records.forEach(r => wsData.push([r.teacherID, r.name, r.date, r.average]));
+    const ws = XLSX.utils.aoa_to_sheet(wsData);
+    XLSX.utils.book_append_sheet(wb, ws, "Records");
+    XLSX.writeFile(wb, "Teacher-Evaluation-Records.xlsx");
+  }
+
+  /* ─────  EVALUATION CRITERIA  ───── */
+  function addCriterion() {
+    const crit = document.getElementById("newCriteria").value.trim();
+    if (!crit) return;
+
+    const criteria = JSON.parse(localStorage.getItem("evaluationCriteria") || "[]");
+    criteria.push(crit);
+    localStorage.setItem("evaluationCriteria", JSON.stringify(criteria));
+    document.getElementById("newCriteria").value = "";
     loadCriteria();
+  }
 
-    
-    function logout(){
-      localStorage.removeItem("loggedInAdmin");
-      localStorage.removeItem("adminRole");
-      window.location.href="login.html";
-    }
+  function loadCriteria() {
+    const criteria = JSON.parse(localStorage.getItem("evaluationCriteria") || "[]");
+    const list = document.getElementById("criteriaList");
+    list.innerHTML = "";
+
+    criteria.forEach((c, i) => {
+      const li     = document.createElement("li");
+      const input  = document.createElement("input");
+      input.value  = c;
+      input.style.width = "70%";
+      input.style.marginRight = "5px";
+
+      const save = document.createElement("button");
+      save.textContent = "Save";
+      save.className   = "btn";
+      save.style.padding = "4px 8px";
+      save.onclick = () => {
+        criteria[i] = input.value;
+        localStorage.setItem("evaluationCriteria", JSON.stringify(criteria));
+        loadCriteria();
+      };
+
+      const del = document.createElement("button");
+      del.textContent = "Delete";
+      del.className   = "btn";
+      del.style.padding = "4px 8px";
+      del.onclick = () => {
+        criteria.splice(i, 1);
+        localStorage.setItem("evaluationCriteria", JSON.stringify(criteria));
+        loadCriteria();
+      };
+
+      li.appendChild(input);
+      li.appendChild(save);
+      li.appendChild(del);
+      list.appendChild(li);
+    });
+  }
+  loadCriteria();
+
+  /* ─────  LOGOUT  ───── */
+  function logout() {
+    localStorage.removeItem("loggedInAdmin");
+    localStorage.removeItem("adminRole");
+    location.href = "login.html";
+  }
   </script>
 </body>
 </html>

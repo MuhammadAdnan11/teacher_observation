@@ -4,257 +4,142 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Teacher Observation Form</title>
+  <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
- <style>
-  body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f0f2f5;
-  margin: 0;
-  padding: 0;
-}
 
-h2, h3 {
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 10px;
-}
-
-.container {
-  max-width: 1000px;
-  margin: 30px auto;
-  padding: 20px 30px;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s ease;
-}
-.container:hover {
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.details > * {
-  min-width: 0;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.details {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 15px;
-  margin-bottom: 20px;
-}
-
-@media (max-width: 768px) {
-  .details {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* styled input & select fields */
-input[type="text"],
-input[type="date"],
-input[type="time"],
-select,
-textarea {
-  padding: 12px 14px;
-  font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background: linear-gradient(to bottom, #ffffff, #f9f9f9);
-  transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
-}
-input:focus,
-select:focus,
-textarea:focus {
-  border-color: #1976d2;
-  box-shadow: 0 0 6px rgba(25, 118, 210, 0.3);
-  background: linear-gradient(to bottom, #ffffff, #e3f2fd);
-  outline: none;
-}
-select {
-  appearance: none;
-  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20fill%3D%22%231976d2%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20width%3D%2224%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M7%2010l5%205%205-5H7z%22/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-  background-size: 16px 16px;
-}
-select:disabled {
-  background-color: #f1f1f1;
-  color: #999;
-}
-
-/* disabled fields style */
-input:disabled,
-select:disabled {
-  background-color: #f1f1f1;
-  color: #999;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 10px;
-}
-th,
-td {
-  border: 1px solid #ddd;
-  padding: 10px;
-}
-th {
-  background-color: #1976d2;
-  color: white;
-}
-td input[type="radio"] {
-  margin: 0 4px;
-  cursor: pointer;
-}
-td input[type="text"] {
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  padding: 6px;
-  transition: border-color 0.3s;
-}
-td input[type="text"]:focus {
-  border-color: #1976d2;
-}
-
-.btn-group {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin-top: 20px;
-}
-button {
-  padding: 10px 20px;
-  background: linear-gradient(to right, #1976d2, #0d47a1);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: background 0.3s, transform 0.2s;
-}
-button:hover {
-  background: linear-gradient(to right, #125aa3, #0d47a1);
-  transform: translateY(-2px);
-}
-button:active {
-  transform: scale(0.97);
-}
-
-.total-score {
-  text-align: center;
-  font-weight: bold;
-  font-size: 16px;
-  background: #e3f2fd;
-  padding: 10px;
-  border-radius: 6px;
-  color: #1976d2;
-}
-
-nav {
-  background-color: #1976d2;
-  color: white;
-  padding: 10px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-nav img {
-  height: 50px;
-  border-radius: 50%;
-  transition: transform 0.3s;
-}
-nav img:hover {
-  transform: rotate(5deg) scale(1.05);
-}
-nav a {
-  color: white;
-  text-decoration: none;
-  margin-left: 8px;
-  font-weight: 500;
-  position: relative;
-  transition: color 0.3s;
-}
-nav a:hover {
-  color: #cfe2f3;
-}
-nav a::after {
-  content: "";
-  display: block;
-  width: 0%;
-  height: 2px;
-  background: white;
-  transition: width 0.3s;
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-}
-nav a:hover::after {
-  width: 100%;
-}
-nav button {
-  background: #ffffff;
-  color: #1976d2;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: background-color 0.3s, color 0.3s;
-}
-nav button:hover {
-  background-color: #e3f2fd;
-  color: #125aa3;
-}
-
-
-input[type="text"] {
-  background: #fff;
-  border: 1px solid #ccc;
-  color: #333;
-  transition: border-color 0.3s, box-shadow 0.3s;
-}
-
-input[type="text"]:focus {
-  background: #fff;
-  border-color: #1976d2;
-  box-shadow: 0 0 6px rgba(25, 118, 210, 0.3);
-}
-
- </style>
-  <script>
-    if (!localStorage.getItem("loggedInAdmin")) {
-      window.location.href = "login.html";
+  <!-- ───────────  PAGE STYLES  ─────────── -->
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f0f2f5;
+      margin: 0;
+      padding: 0;
     }
+
+    h2, h3 {
+      text-align: center;
+      color: #2c3e50;
+      margin-top: 10px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 20px 30px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      transition: box-shadow .3s ease;
+    }
+    .container:hover { box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
+
+    form { display: flex; flex-direction: column; gap: 20px; }
+
+    .details { display: grid; grid-template-columns: repeat(auto-fit,minmax(250px,1fr)); gap: 15px; margin-bottom: 20px; }
+    .details > * { min-width: 0; width: 100%; box-sizing: border-box; }
+
+    @media (max-width:768px){ .details { grid-template-columns:1fr; } }
+
+    /* Inputs */
+    input[type="text"],
+    input[type="date"],
+    input[type="time"],
+    select,
+    textarea {
+      padding: 12px 14px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background: linear-gradient(to bottom,#fff,#f9f9f9);
+      transition: border-color .3s, box-shadow .3s, background .3s;
+    }
+    input:focus,select:focus,textarea:focus {
+      border-color:#1976d2;
+      box-shadow:0 0 6px rgba(25,118,210,.3);
+      background: linear-gradient(to bottom,#fff,#e3f2fd);
+      outline:none;
+    }
+
+    select {
+      appearance:none;
+      background-image:url("data:image/svg+xml,%3Csvg fill='%231976d2' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10l5 5 5-5H7z'/%3E%3C/svg%3E");
+      background-repeat:no-repeat;
+      background-position:right 12px center;
+      background-size:16px 16px;
+    }
+
+    /* Disabled */
+    input:disabled, select:disabled { background:#f1f1f1; color:#999; }
+
+    table { width:100%; border-collapse:collapse; margin-top:10px; }
+    th,td { border:1px solid #ddd; padding:10px; }
+    th { background:#1976d2; color:#fff; }
+    td input[type="radio"] { margin:0 4px; cursor:pointer; }
+    td input[type="text"] { border:1px solid #ccc; border-radius:6px; padding:6px; transition:border-color .3s; }
+    td input[type="text"]:focus { border-color:#1976d2; }
+
+    .btn-group { display:flex; justify-content:center; gap:15px; margin-top:20px; }
+    button {
+      padding:10px 20px;
+      background:linear-gradient(to right,#1976d2,#0d47a1);
+      color:#fff;
+      border:none;
+      border-radius:8px;
+      cursor:pointer;
+      font-weight:500;
+      transition:background .3s, transform .2s;
+    }
+    button:hover { background:linear-gradient(to right,#125aa3,#0d47a1); transform:translateY(-2px); }
+    button:active { transform:scale(.97); }
+
+    .total-score { text-align:center; font-weight:bold; font-size:16px; background:#e3f2fd; padding:10px; border-radius:6px; color:#1976d2; }
+
+    /* Navbar */
+    nav {
+      background:#1976d2;
+      color:#fff;
+      padding:10px 20px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+    }
+    nav img { height:50px; border-radius:50%; transition:transform .3s; }
+    nav img:hover { transform:rotate(5deg) scale(1.05); }
+    nav a { color:#fff; text-decoration:none; margin-left:8px; font-weight:500; position:relative; transition:color .3s; }
+    nav a:hover { color:#cfe2f3; }
+    nav a::after { content:""; display:block; width:0; height:2px; background:#fff; transition:width .3s; position:absolute; bottom:-4px; left:0; }
+    nav a:hover::after { width:100%; }
+    nav button { background:#fff; color:#1976d2; border:none; padding:6px 12px; border-radius:6px; cursor:pointer; font-weight:500; transition:background-color .3s,color .3s; }
+    nav button:hover { background:#e3f2fd; color:#125aa3; }
+  </style>
+
+  <!-- Redirect to login if not logged in -->
+  <script>
+    if(!localStorage.getItem('loggedInAdmin')){ location.href = 'login.html'; }
   </script>
 </head>
 <body>
- <nav style="background-color: #1976d2; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between;">
-  <div style="display: flex; align-items: center; gap: 10px;">
-    <img src="logo.jpg" alt="GIMS Logo" style="height: 50px; border-radius: 50%;">
-    <span style="color: white; font-size: 20px; font-weight: bold;">GIMS Peshawar</span>
-  </div>
-  <div id="navbar-links" style="display: flex; align-items: center; gap: 20px;">
-    <a href="index.html" style="color: white; text-decoration: none;">Home</a>
-    <a href="records.html" style="color: white; text-decoration: none;">Records</a>
-    <!-- Admin link will be added dynamically for supervisor -->
-    <button onclick="logout()" style="background: #ffffff; color: #1976d2; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: 500;">Logout</button>
-  </div>
-</nav>
+  <!-- ───────────  NAVBAR  ─────────── -->
+  <nav>
+    <div style="display:flex; align-items:center; gap:10px;">
+      <img src="logo.jpg" alt="GIMS Logo">
+      <span style="font-size:20px; font-weight:bold;">GIMS Peshawar</span>
+    </div>
+    <div id="navbar-links" style="display:flex; align-items:center; gap:20px;">
+      <a href="index.html">Home</a>
+      <a href="records.html">Records</a>
+      <!-- Admin link injected for supervisors -->
+      <button onclick="logout()">Logout</button>
+    </div>
+  </nav>
 
+  <!-- ───────────  FORM CONTAINER  ─────────── -->
   <div class="container" id="formContainer">
     <h2>Ghazzali Institute of Medical Sciences Peshawar</h2>
     <h3>Teacher Lecture Observation Form</h3>
 
     <form id="evaluationForm">
+      <!-- Details section -->
       <div class="details">
         <select id="campusDropdown" required>
           <option value="">Select Campus</option>
@@ -271,12 +156,12 @@ input[type="text"]:focus {
         <select id="subjectDropdown" required disabled>
           <option value="">Select Subject</option>
         </select>
-        <input type="text" id="teacherID" placeholder="Teacher ID" disabled />
-        <input type="text" id="topic" placeholder="Topic of Demo" />
-        <input type="text" id="length" placeholder="Length of Demo" />
-        <input type="text" id="conducted" placeholder="Conducted by" />
-        <input type="date" id="date" />
-        <input type="time" id="time" />
+        <input type="text" id="teacherID" placeholder="Teacher ID" disabled>
+        <input type="text" id="topic" placeholder="Topic of Demo">
+        <input type="text" id="length" placeholder="Length of Demo">
+        <input type="text" id="conducted" placeholder="Conducted by">
+        <input type="date" id="date">
+        <input type="time" id="time">
       </div>
 
       <p><strong>Rating Key:</strong> 1=Unsatisfactory, 2=Fair, 3=Satisfactory, 4=Very Good, 5=Excellent</p>
@@ -304,135 +189,142 @@ input[type="text"]:focus {
     </form>
   </div>
 
+  <!-- Libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <script>
-    const criteria = JSON.parse(localStorage.getItem("evaluationCriteria") || "[]");
-    const tableBody = document.getElementById("criteriaTable");
 
-    criteria.forEach((item, index) => {
-      const row = document.createElement("tr");
+  <!-- ───────────  PAGE SCRIPT  ─────────── -->
+  <script>
+    /* ----- Build criteria table from localStorage list ----- */
+    const criteria = JSON.parse(localStorage.getItem('evaluationCriteria') || '[]');
+    const tableBody = document.getElementById('criteriaTable');
+
+    criteria.forEach((item, idx) => {
+      const row = document.createElement('tr');
       row.innerHTML = `
         <td>${item}</td>
-        <td>${[1,2,3,4,5].map(i => `<label><input type="radio" name="rating-${index}" value="${i}" required> ${i}</label>`).join(" ")}</td>
+        <td>${[1,2,3,4,5].map(i => `<label><input type=\"radio\" name=\"rating-${idx}\" value=\"${i}\" required> ${i}</label>`).join(' ')}</td>
         <td><input type="text" placeholder="Optional" style="width:100%"></td>`;
       tableBody.appendChild(row);
     });
 
-    function calculateScore() {
-      let total = 0, count = 0;
-      criteria.forEach((_, index) => {
-        const checked = document.querySelector(`input[name="rating-${index}"]:checked`);
-        if (checked) {
-          total += parseInt(checked.value);
-          count++;
-        }
+    /* ----- Live score calculation ----- */
+    function calculateScore(){
+      let total=0,count=0;
+      criteria.forEach((_,idx)=>{
+        const sel=document.querySelector(`input[name='rating-${idx}']:checked`);
+        if(sel){ total += +sel.value; count++; }
       });
-      const avg = count ? (total / count).toFixed(2) : 0;
-      document.getElementById("totalScore").textContent = `Total Score: ${total} | Average: ${avg}`;
+      const avg = count ? (total/count).toFixed(2) : 0;
+      document.getElementById('totalScore').textContent = `Total Score: ${total} | Average: ${avg}`;
     }
-    document.addEventListener("change", calculateScore);
+    document.addEventListener('change', calculateScore);
 
-    const teachersData = JSON.parse(localStorage.getItem("teachers") || "{}");
-    const campusDropdown = document.getElementById("campusDropdown");
-    const teacherTypeDropdown = document.getElementById("teacherTypeDropdown");
-    const teacherDropdown = document.getElementById("teacherDropdown");
-    const subjectDropdown = document.getElementById("subjectDropdown");
+    /* ----- Dropdown cascades ----- */
+    const teachersData = JSON.parse(localStorage.getItem('teachers') || '{}');
+    const campusDropdown = document.getElementById('campusDropdown');
+    const teacherTypeDropdown = document.getElementById('teacherTypeDropdown');
+    const teacherDropdown = document.getElementById('teacherDropdown');
+    const subjectDropdown = document.getElementById('subjectDropdown');
+    const teacherIDField = document.getElementById('teacherID');
 
-    campusDropdown.addEventListener("change", function () {
+    // Campus -> Teacher Types
+    campusDropdown.addEventListener('change', ()=>{
       teacherTypeDropdown.innerHTML = '<option value="">Select Teacher Type</option>';
       teacherDropdown.innerHTML = '<option value="">Select Teacher</option>';
       subjectDropdown.innerHTML = '<option value="">Select Subject</option>';
       teacherTypeDropdown.disabled = teacherDropdown.disabled = subjectDropdown.disabled = true;
 
-      const campus = this.value;
-      if (campus && teachersData[campus]) {
-        Object.keys(teachersData[campus]).forEach(type => {
-          const opt = document.createElement("option");
-          opt.value = type;
-          opt.textContent = type;
-          teacherTypeDropdown.appendChild(opt);
+      const campus = campusDropdown.value;
+      if(campus && teachersData[campus]){
+        Object.keys(teachersData[campus]).forEach(tType=>{
+          teacherTypeDropdown.insertAdjacentHTML('beforeend', `<option value="${tType}">${tType}</option>`);
         });
         teacherTypeDropdown.disabled = false;
       }
     });
 
-    teacherTypeDropdown.addEventListener("change", function () {
+    // Teacher Type -> Teachers
+    teacherTypeDropdown.addEventListener('change', ()=>{
       teacherDropdown.innerHTML = '<option value="">Select Teacher</option>';
       subjectDropdown.innerHTML = '<option value="">Select Subject</option>';
       teacherDropdown.disabled = subjectDropdown.disabled = true;
 
       const campus = campusDropdown.value;
-      const type = this.value;
-      if (campus && type && teachersData[campus][type]) {
-        teachersData[campus][type].forEach(teacher => {
-          const opt = document.createElement("option");
-          opt.value = teacher.id;
-          opt.textContent = teacher.name;
-          teacherDropdown.appendChild(opt);
+      const type = teacherTypeDropdown.value;
+      if(campus && type && teachersData[campus]?.[type]){
+        teachersData[campus][type].forEach(t=>{
+          teacherDropdown.insertAdjacentHTML('beforeend', `<option value="${t.id}">${t.name}</option>`);
         });
         teacherDropdown.disabled = false;
       }
     });
 
-    teacherDropdown.addEventListener("change", function () {
+    // Teacher -> Subjects
+    teacherDropdown.addEventListener('change', ()=>{
       subjectDropdown.innerHTML = '<option value="">Select Subject</option>';
       subjectDropdown.disabled = true;
+      teacherIDField.value = '';
 
       const campus = campusDropdown.value;
       const type = teacherTypeDropdown.value;
-      const teacherID = this.value;
-      const teacher = teachersData[campus][type].find(t => t.id === teacherID);
+      const selID = teacherDropdown.value;
+      if(!campus || !type || !selID) return;
 
-if (teacher) {
-  document.getElementById("teacherID").value = teacher.id;
-  if (teacher.subject) {
-    // split subjects by comma
-    const subjects = teacher.subject.split(",").map(s => s.trim());
-    subjects.forEach(sub => {
-      const opt = document.createElement("option");
-      opt.value = sub;
-      opt.textContent = sub;
-      subjectDropdown.appendChild(opt);
-    });
-    subjectDropdown.disabled = false;
-  }
-}
+      const teacher = teachersData[campus][type].find(t=>t.id===selID);
+      if(!teacher) return;
 
+      teacherIDField.value = teacher.id;
+
+      const subjArr = Array.isArray(teacher.subjects) ? teacher.subjects : (teacher.subject ? teacher.subject.split(',').map(s=>s.trim()) : []);
+      subjArr.forEach(s=>{
+        subjectDropdown.insertAdjacentHTML('beforeend', `<option value="${s}">${s}</option>`);
+      });
+      if(subjArr.length) subjectDropdown.disabled = false;
     });
 
-    document.getElementById("evaluationForm").addEventListener("submit", function(e) {
+    /* ----- Form submission ----- */
+    document.getElementById('evaluationForm').addEventListener('submit', e=>{
       e.preventDefault();
-      const formData = new FormData(this);
-      const entries = {};
-      formData.forEach((v,k)=> entries[k]=v);
-      entries.totalScore = document.getElementById("totalScore").textContent;
-      entries.teacherID = document.getElementById("teacherID").value;
-      entries.subject = document.getElementById("subjectDropdown").value;
-      entries.date = document.getElementById("date").value;
+      const fd = new FormData(e.target);
+      const rec = {};
+      fd.forEach((v,k)=> rec[k]=v);
+      rec.totalScore = document.getElementById('totalScore').textContent;
+      rec.teacherID = teacherIDField.value;
+      rec.subject = subjectDropdown.value;
+      rec.date = document.getElementById('date').value;
 
-      const records = JSON.parse(localStorage.getItem("teacherEvaluations") || "[]");
-      records.push(entries);
-      localStorage.setItem("teacherEvaluations", JSON.stringify(records));
-      alert("Form saved successfully!");
+      const all = JSON.parse(localStorage.getItem('teacherEvaluations')||'[]');
+      all.push(rec);
+      localStorage.setItem('teacherEvaluations', JSON.stringify(all));
+
+      alert('Form saved successfully!');
+      e.target.reset();
+      calculateScore();
+      teacherTypeDropdown.disabled = teacherDropdown.disabled = subjectDropdown.disabled = true;
+      campusDropdown.selectedIndex = 0;
+      teacherDropdown.innerHTML = '<option value="">Select Teacher</option>';
+      subjectDropdown.innerHTML = '<option value="">Select Subject</option>';
+      teacherIDField.value = '';
     });
 
-    function printForm() { window.print(); }
-    function downloadPDF() { html2pdf().from(document.getElementById("formContainer")).save("Teacher-Evaluation.pdf"); }
+    /* ----- Utilities ----- */
+    function printForm(){ window.print(); }
+    function downloadPDF(){ html2pdf().from(document.getElementById('formContainer')).save('Teacher-Evaluation.pdf'); }
 
     function logout(){
-      localStorage.removeItem("loggedInAdmin");
-      localStorage.removeItem("adminRole");
-      window.location.href = "login.html";
+      localStorage.removeItem('loggedInAdmin');
+      localStorage.removeItem('adminRole');
+      location.href='login.html';
     }
 
-
-    document.addEventListener("DOMContentLoaded", function(){
-      if(localStorage.getItem("adminRole")==="supervisor"){
-        const l = document.createElement("a");
-        l.href="admin.html";
-        l.textContent="Admin";
-        l.style.color="white";
-        document.getElementById("navbar-links").appendChild(l);
+    // Add Admin link for supervisors
+    document.addEventListener('DOMContentLoaded', ()=>{
+      if(localStorage.getItem('adminRole')==='supervisor'){
+        const a=document.createElement('a');
+        a.href='admin.html';
+        a.textContent='Admin';
+        a.style.color='#fff';
+        document.getElementById('navbar-links').insertBefore(a, document.getElementById('navbar-links').firstChild.nextSibling);
       }
     });
   </script>
